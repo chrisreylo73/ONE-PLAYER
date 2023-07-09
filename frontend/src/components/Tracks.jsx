@@ -3,7 +3,9 @@ import Song from "./Song"
 const Tracks = ({selectedPlaylist, playlistTracks}) => {
   return (
     <div className='tracks'>
-      {/* <h2>{selectedPlaylist.name}</h2> */}
+      <div className='playlistHeaders-spotify' >
+         <h3>{selectedPlaylist.name}</h3>
+      </div>
       <div className='tracks-content'>
         {playlistTracks.length > 0 ? (
           <ul>
@@ -14,6 +16,9 @@ const Tracks = ({selectedPlaylist, playlistTracks}) => {
         ) : (
           <p>No tracks found in the selected playlist.</p>
         )}
+      </div>
+      <div className='playlistHeaders-youtube' >
+         <h3>Youtube Playlist</h3>
       </div>
     </div>
   )

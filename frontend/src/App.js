@@ -92,6 +92,11 @@ function App() {
     }
   };
 
+  const playTrack = (track) => {
+    // Play the selected track using the Spotify Web Playback SDK or your preferred music player
+    console.log('Playing track:', track);
+  };
+
   return (
     <div className="App">
       
