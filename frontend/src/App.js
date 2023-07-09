@@ -1,13 +1,10 @@
-// useState : used to store and and update a value
-// useEffect : used to allow side functionality and typically runs by default / in the background. 
 import React, { useEffect, useState } from 'react';
+import MusicPlayer from './components/MusicPlayer';
 import './App.css';
-import axios from 'axios'; // Axios is a JavaScript library for making HTTP requests from web browsers and Node.js, offering a simple and intuitive API for asynchronous data retrieval.
-import Song from "./components/Song"
-import Playlist from "./components/Playlist"
+import axios from 'axios';
 import Tracks from "./components/Tracks"
-import DropdownMenu from "./components/DropdownMenu"
-// Define constant values for the Spotify authentication
+import ControlPanel from './components/ControlPanel';
+
 const CLIENT_ID = 'b96044a084a542c691fe9b0eca9684de';
 const REDIRECT_URI = "http://localhost:3000";
 const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
@@ -15,24 +12,22 @@ const RESPONSE_TYPE = "token";
 const API_BASE_URL = 'https://api.spotify.com/v1';
 
 function App() {
-  const [token, setToken] = useState("");  // State variable to store the access token
+  const [token, setToken] = useState("");
   const [playlists, setPlaylists] = useState([]);
   const [selectedPlaylist, setSelectedPlaylist] = useState(null);
   const [playlistTracks, setPlaylistTracks] = useState([]);
+  const [selectedTrackUri, setSelectedTrackUri] = useState(null);
+    const [song, setSong] = useState(null);
 
   useEffect(() => {
-    // Check if the token is present in the URL hash or local storage
     const hash = window.location.hash;
     let token = window.localStorage.getItem("token");
-    // Extract the token from the URL hash
+
     if (!token && hash) {
       token = hash.substring(1).split("&").find(elem => elem.startsWith("access_token")).split("=")[1];
-      // Store the token in local storage
       window.localStorage.setItem("token", token);
-      
-      console.log(token);
     }
-    // Set the token in the state
+
     setToken(token);
   }, []);
 
@@ -47,13 +42,12 @@ function App() {
     fetchPlaylistTracks(playlist.id);
   };
 
-  
-
   const logout = () => {
-    // Clear the token from state and local storage
     setToken("");
     window.localStorage.removeItem("token");
+    setSelectedPlaylist("");
   }
+  
   const fetchPlaylists = async () => {
     try {
       const response = await fetch(`${API_BASE_URL}/me/playlists`, {
@@ -93,34 +87,128 @@ function App() {
   };
 
   const playTrack = (track) => {
-    // Play the selected track using the Spotify Web Playback SDK or your preferred music player
-    console.log('Playing track:', track);
+    console.log(track);
+    setSelectedTrackUri(track.uri);
+  };
+
+  const handlePlaySong = async () => {
+    try {
+      // Make a request to the Spotify API to get a song
+      const response = await fetch(`https://api.spotify.com/v1/tracks/5lka5RUbLVQGO94mKAPMRO`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setSong(data);
+      } else {
+        console.log('Error:', response.status);
+      }
+    } catch (error) {
+      console.log('Error:', error);
+    }
   };
 
   return (
     <div className="App">
-      
-      {/* <h1>Spotify React</h1> */}
-      
-      {!token ? // if there is no token in local storage then "Login" else you must be logged in and so show a button to log out.
-        <a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}>Login to Spotify</a> 
-        : 
-        <div>
-           <h1>React Spotify</h1>
-           {playlists.length > 0 ? (
-            <DropdownMenu playlists={playlists} handlePlaylistSelect={handlePlaylistSelect} ></DropdownMenu>
-          ) : (
-            <p>No playlists found.</p>
-          )}
-          {selectedPlaylist && (
-            <Tracks selectedPlaylist={selectedPlaylist} playlistTracks={playlistTracks} ></Tracks>
-          )}
-          <button onClick={logout}> Logout</button>
-        </div> 
-      }
 
+    <div>
+      <button onClick={handlePlaySong}>Play Song</button>
+       {song && (
+        <div>
+          <h2>{song.name}</h2>
+          <p>Artist: {song.artists[0].name}</p>
+          <p>Album: {song.album.name}</p>
+          <img src={song.album.images[0].url} alt="Album Cover" />
+          <audio src={song.preview_url} controls />
+        </div>
+      )}
+    </div>
+      <hr />
+      <div>
+        {playlists.length > 0 ? (
+          <ControlPanel
+            token={token}
+            AUTH_ENDPOINT={AUTH_ENDPOINT}
+            CLIENT_ID={CLIENT_ID}
+            REDIRECT_URI={REDIRECT_URI}
+            RESPONSE_TYPE={RESPONSE_TYPE}
+            playlists={playlists}
+            handlePlaylistSelect={handlePlaylistSelect}
+            logout={logout}
+          />
+        ) : (
+          <p>No playlists found.</p>
+        )}
+        <Tracks
+          selectedPlaylist={selectedPlaylist}
+          playlistTracks={playlistTracks}
+          playTrack={playTrack}
+        />
+        <MusicPlayer accessToken={token} trackUri={selectedTrackUri} />
+      </div>
     </div>
   );
 }
 
 export default App;
+
+
+
+// import React, { useEffect, useState } from 'react';
+
+// const App = () => {
+//   const [accessToken, setAccessToken] = useState('');
+//   const [song, setSong] = useState(null);
+
+//   useEffect(() => {
+//     const hash = window.location.hash;
+//     let token = window.localStorage.getItem("token");
+
+//     if (!token && hash) {
+//       token = hash.substring(1).split("&").find(elem => elem.startsWith("access_token")).split("=")[1];
+//       window.localStorage.setItem("token", token);
+//     }
+
+//     setToken(token);
+//   }, []);
+
+//   const handlePlaySong = async () => {
+//     try {
+//       // Make a request to the Spotify API to get a song
+//       const response = await fetch('https://api.spotify.com/v1/tracks/57SZLxVtBQiDsYqcqicuYE"}', {
+//         headers: {
+//           Authorization: `Bearer ${accessToken}`,
+//         },
+//       });
+
+//       if (response.ok) {
+//         const data = await response.json();
+//         setSong(data);
+//       } else {
+//         console.log('Error:', response.status);
+//       }
+//     } catch (error) {
+//       console.log('Error:', error);
+//     }
+//   };
+
+//   return (
+//     <div>
+//       <button onClick={handlePlaySong}>Play Song</button>
+//       {song && (
+//         <div>
+//           <h2>{song.name}</h2>
+//           <p>Artist: {song.artists[0].name}</p>
+//           <p>Album: {song.album.name}</p>
+//           <img src={song.album.images[0].url} alt="Album Cover" />
+//           <audio src={song.preview_url} controls />
+//         </div>
+//       )}
+//     </div>
+//   );
+// };
+
+// export default App;

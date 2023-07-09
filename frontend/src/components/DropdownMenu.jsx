@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Playlist from './Playlist';
 
-const DropdownMenu = ({ playlists, handlePlaylistSelect }) => {
+const DropdownMenu = ({ playlists, handlePlaylistSelect, token, logout, handleButtonClick }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDropdown = () => {
@@ -10,9 +10,14 @@ const DropdownMenu = ({ playlists, handlePlaylistSelect }) => {
 
   return (
     <div className="dropdown">
-      <button className="dropdown-toggle" onClick={toggleDropdown}>
-        Spotify Playlists
-      </button>
+      <div className="spotify">
+         <button className="dropdown-toggle" onClick={toggleDropdown}>
+           Spotify Playlists
+         </button>
+         {!token ?  <button id='login' onClick={handleButtonClick}>Login to Spotify</button>
+             : <button id='logout' onClick={logout}> Logout</button>
+         }
+      </div>
       {isOpen && (
         <div className='spotify-playlists'>
           {playlists.map(playlist => (

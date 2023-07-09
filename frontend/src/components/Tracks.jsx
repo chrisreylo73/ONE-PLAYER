@@ -1,6 +1,16 @@
 import React from 'react'
 import Song from "./Song"
-const Tracks = ({selectedPlaylist, playlistTracks}) => {
+const Tracks = ({selectedPlaylist, playlistTracks, playTrack}) => {
+  if (!selectedPlaylist) {
+    return <div className='tracks'>
+      <div className='playlistHeaders-spotify' >
+        <h3>Spotify Playlist</h3>
+      </div>
+      <div className='playlistHeaders-youtube' >
+         <h3>Youtube Playlist</h3>
+      </div>
+     </div>;
+  }
   return (
     <div className='tracks'>
       <div className='playlistHeaders-spotify' >
@@ -10,7 +20,15 @@ const Tracks = ({selectedPlaylist, playlistTracks}) => {
         {playlistTracks.length > 0 ? (
           <ul>
             {playlistTracks.map(track => (
-              <Song key={track.track.id} albumCover={track.track.album.images[0].url} title={track.track.name} artist={track.track.artists[0].name} album={track.track.album.name} length={track.track.duration_ms}></Song>
+              <Song 
+               key={track.track.id} 
+               albumCover={track.track.album.images[0].url} 
+               title={track.track.name} 
+               artist={track.track.artists[0].name} 
+               album={track.track.album.name} 
+               length={track.track.duration_ms} 
+               playTrack={() => playTrack(track)}>
+              </Song>
             ))}
           </ul>
         ) : (
