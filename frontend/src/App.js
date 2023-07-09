@@ -104,11 +104,6 @@ function App() {
            <h1>My Playlists</h1>
            {playlists.length > 0 ? (
             <DropdownMenu playlists={playlists} handlePlaylistSelect={handlePlaylistSelect} ></DropdownMenu>
-            // <ul>
-            //   {playlists.map(playlist => (
-            //     <Playlist key={playlist.id} title={playlist.name} onClick={() => handlePlaylistSelect(playlist)}></Playlist>
-            //   ))}
-            // </ul>
           ) : (
             <p>No playlists found.</p>
           )}
