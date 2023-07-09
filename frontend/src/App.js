@@ -101,7 +101,7 @@ function App() {
         <a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}>Login to Spotify</a> 
         : 
         <div>
-           <h1>My Playlists</h1>
+           <h1>React Spotify</h1>
            {playlists.length > 0 ? (
             <DropdownMenu playlists={playlists} handlePlaylistSelect={handlePlaylistSelect} ></DropdownMenu>
           ) : (
