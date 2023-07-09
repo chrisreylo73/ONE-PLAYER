@@ -5,6 +5,8 @@ import './App.css';
 import axios from 'axios'; // Axios is a JavaScript library for making HTTP requests from web browsers and Node.js, offering a simple and intuitive API for asynchronous data retrieval.
 import Song from "./components/Song"
 import Playlist from "./components/Playlist"
+import Tracks from "./components/Tracks"
+import DropdownMenu from "./components/DropdownMenu"
 // Define constant values for the Spotify authentication
 const CLIENT_ID = 'b96044a084a542c691fe9b0eca9684de';
 const REDIRECT_URI = "http://localhost:3000";
@@ -93,35 +95,25 @@ function App() {
   return (
     <div className="App">
       
-      <h1>Spotify React</h1>
+      {/* <h1>Spotify React</h1> */}
+      
       {!token ? // if there is no token in local storage then "Login" else you must be logged in and so show a button to log out.
         <a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}>Login to Spotify</a> 
         : 
         <div>
            <h1>My Playlists</h1>
            {playlists.length > 0 ? (
-            <ul>
-              {playlists.map(playlist => (
-                <Playlist key={playlist.id} title={playlist.name} onClick={() => handlePlaylistSelect(playlist)}></Playlist>
-              ))}
-            </ul>
+            <DropdownMenu playlists={playlists} handlePlaylistSelect={handlePlaylistSelect} ></DropdownMenu>
+            // <ul>
+            //   {playlists.map(playlist => (
+            //     <Playlist key={playlist.id} title={playlist.name} onClick={() => handlePlaylistSelect(playlist)}></Playlist>
+            //   ))}
+            // </ul>
           ) : (
             <p>No playlists found.</p>
           )}
-
           {selectedPlaylist && (
-            <div>
-              <h2>{selectedPlaylist.name}</h2>
-              {playlistTracks.length > 0 ? (
-                <ul>
-                  {playlistTracks.map(track => (
-                    <Song key={track.track.id} albumCover={track.track.album.images[0].url} title={track.track.name} album={track.track.album.name} length={track.track.duration_ms}></Song>
-                  ))}
-                </ul>
-              ) : (
-                <p>No tracks found in the selected playlist.</p>
-              )}
-            </div>
+            <Tracks selectedPlaylist={selectedPlaylist} playlistTracks={playlistTracks} ></Tracks>
           )}
           <button onClick={logout}> Logout</button>
         </div> 

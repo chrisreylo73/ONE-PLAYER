@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Playlist = ({cover, title, onClick}) => {
+const Playlist = ({title, onClick}) => {
   return (
     <div className='playlist'   onClick={onClick}>
       <p>{title}</p>
@@ -10,7 +10,6 @@ const Playlist = ({cover, title, onClick}) => {
 
 Playlist.defaultProps = {
    title: 'Title?',
-   cover: null,
 };
 
 export default Playlist
