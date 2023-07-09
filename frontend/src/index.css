@@ -1,13 +1,64 @@
 body {
-  margin: 0;
+  /* margin: 0; */
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  display: flex;
+}
+.playlist {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* Vertically center the contents */
+  margin-left: 50px;
+  padding-left: 20px;
+  padding-right: 10px;
+  width: 200px;
+  height: 50px;
+  background-color: rgb(223, 223, 223);
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+  margin-top: 10px;
+  white-space: nowrap;
+  overflow: hidden; 
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.song {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* Vertically center the contents */
+  margin-left: 50px;
+  padding-left: 20px;
+  padding-right: 10px;
+  width: 550px;
+  height: 50px;
+  background-color: rgb(223, 223, 223);
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+  margin-top: 10px;
 }
+
+.album-cover {
+  width: 40px; /* Adjust the size as needed */
+  height: 40px; /* Adjust the size as needed */
+  margin-right: 10px;
+}
+
+.album-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+#title, #album {
+  display: flex;
+  width: 150px;
+  white-space: nowrap;
+   /* Prevent the text from wrapping */
+  overflow: hidden; 
+  /* Hide any overflow */
+  text-overflow: ellipsis; /* Add an ellipsis (...) at the end of the truncated text */
+}
+
