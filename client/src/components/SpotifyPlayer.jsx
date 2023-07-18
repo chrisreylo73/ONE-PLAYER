@@ -17,26 +17,24 @@ const SpotifyPlayer = ({ accessToken, currentTrack }) => {
 					cb(accessToken);
 				},
 			});
-
 			setPlayer(newPlayer);
-
 			newPlayer.connect().then((success) => {
 				if (success) {
 					console.log("Connected to Spotify player!");
 				}
 			});
-		};
 
-		return () => {
-			if (player !== null) {
-				player.disconnect();
-			}
+			// return () => {
+			// 	newPlayer.disconnect();
+			// 	newPlayer.removeListener("ready");
+			// 	newPlayer.removeListener("not_ready");
+			// 	newPlayer.removeListener("player_state_changed");
+			// };
 		};
-	}, [accessToken]);
+	}, [currentTrack?.uri]);
 
 	useEffect(() => {
 		if (currentTrack?.uri) {
-			player.resume();
 			player.addListener("ready", ({ device_id }) => {
 				player._options.id = device_id;
 				player._options.getOAuthToken((access_token) => {
@@ -47,11 +45,19 @@ const SpotifyPlayer = ({ accessToken, currentTrack }) => {
 							"Content-Type": "application/json",
 							Authorization: `Bearer ${access_token}`,
 						},
-					});
+					})
+						.then((response) => {
+							if (response.ok) {
+								player.resume();
+							}
+						})
+						.catch((error) => {
+							console.error("Error:", error);
+						});
 				});
 			});
 		}
-	}, [currentTrack.uri]);
+	}, [currentTrack?.uri]);
 
 	const handlePreviousTrack = () => {
 		if (player !== null) {

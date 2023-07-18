@@ -31,9 +31,6 @@ export default function Dashboard({ code }) {
 	const [spotifySelectedPlaylist, setSpotifySelectedPlaylist] = useState(null);
 	const [spotifyPlaylistTracks, setSpotifyPlaylistTracks] = useState([]);
 
-	const [youtubePlaylistTracks, setYoutubePlaylistTracks] = useState([]);
-	const [youtubeSelectedPlaylist, setYouTubeSelectedPlaylist] = useState(null);
-
 	useEffect(() => {
 		if (!accessToken) return;
 		spotifyApi.setAccessToken(accessToken);
@@ -111,6 +108,8 @@ export default function Dashboard({ code }) {
 	const [player, setPlayer] = useState(null);
 	const [youtubeCurrentIndex, setYoutubeCurrentIndex] = useState(0);
 	const [youtubeIsPlaying, setYoutubeIsPlaying] = useState(false);
+	const [youtubePlaylistTracks, setYoutubePlaylistTracks] = useState([]);
+	const [youtubeSelectedPlaylist, setYouTubeSelectedPlaylist] = useState(null);
 
 	const handlePlayerReady = (event) => {
 		setPlayer(event.target);
@@ -170,8 +169,8 @@ export default function Dashboard({ code }) {
 		// { name: "Live Songs", songs: ["ZWVGr7cQZ_Y", "Ti4blSWS6bY", "8puqbXK3k-w"] },
 	];
 
-	const spotifyTrackURIs = spotifyPlaylistTracks.map((playlistTrack) => playlistTrack.track.uri);
-	console.log(spotifyTrackURIs);
+	// const spotifyTrackURIs = spotifyPlaylistTracks.map((playlistTrack) => playlistTrack.track.uri);
+	// console.log(spotifyTrackURIs);
 
 	return (
 		<div>
@@ -179,8 +178,8 @@ export default function Dashboard({ code }) {
 			<ControlPanel spotifyPlaylists={spotifyPlaylists} youtubePlaylists={youtubePlaylists} spotifyHandlePlaylistSelect={spotifyHandlePlaylistSelect} youtubeHandlePlaylistSelect={youtubeHandlePlaylistSelect} />
 			{youtubeSelectedPlaylist && <YoutubePlayer youtubePlaylist={youtubePlaylists[youtubeSelectedPlaylist.id]} handlePrevious={handlePrevious} handleNext={handleNext} handlePlay={handlePlay} handlePause={handlePause} handlePlaylistEnd={handlePlaylistEnd} youtubeCurrentIndex={youtubeCurrentIndex} youtubeIsPlaying={youtubeIsPlaying} handlePlayerReady={handlePlayerReady} />}
 			<div className="Spotify-Player">
-				{/* <SpotifyPlayer accessToken={accessToken} currentTrack={currentTrack}></SpotifyPlayer> */}
-				<Player accessToken={accessToken} trackUri={currentTrack?.uri} spotifyTrackURIs={spotifyTrackURIs} />
+				<SpotifyPlayer accessToken={accessToken} currentTrack={currentTrack}></SpotifyPlayer>
+				{/* <Player accessToken={accessToken} trackUri={currentTrack?.uri} spotifyTrackURIs={spotifyTrackURIs} /> */}
 			</div>
 		</div>
 	);
