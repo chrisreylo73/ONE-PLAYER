@@ -1,10 +1,14 @@
 import Playlist from "./SpotifyPlaylist";
-
+// import Login from "../Login";
 const SpotifyPlaylistsCon = ({ spotifyPlaylists, spotifyHandlePlaylistSelect }) => {
 	return (
-		<div className="Spotify-Playlists">
-			<h3>Spotify Playlists</h3>
-			<div className="playlists">
+		<div className="Spotify-Playlists-con">
+			<div className="Spotify-Playlists-header">
+				<h3>SPOTIFY PLAYLISTS</h3>
+				<button>Login to Spotify</button>
+				{/* <Login /> */}
+			</div>
+			<div className="Spotify-Playlists">
 				{spotifyPlaylists.map((spotifyPlaylist) => (
 					<Playlist key={spotifyPlaylist.id} title={spotifyPlaylist.name} handleClick={() => spotifyHandlePlaylistSelect(spotifyPlaylist)} />
 				))}

@@ -1,15 +1,13 @@
 import { useState, useEffect } from "react";
 
-import useAuth from "./useAuth";
-import Player from "./Player";
-// import TrackSearchResult from "./TrackSearchResult";
-// import { Container, Form } from "react-bootstrap";
+import useAuth from "./components/useAuth";
+import Player from "./components/Player";
 import SpotifyWebApi from "spotify-web-api-node";
-// import axios from "axios";
 import Tracks from "./components/Tracks";
 import ControlPanel from "./components/ControlPanel";
 import YoutubePlayer from "./components/YoutubePlayer";
 import SpotifyPlayer from "./components/SpotifyPlayer";
+import MediaPanel from "./components/MediaPanel";
 
 const API_BASE_URL = "https://api.spotify.com/v1";
 const spotifyApi = new SpotifyWebApi({
@@ -20,10 +18,6 @@ export default function Dashboard({ code }) {
 	/**-----------------------------------------------------------------------------------------------------------------------
 	 *                                                    SPOTIFY
 	 *-----------------------------------------------------------------------------------------------------------------------**/
-
-	// const [search, setSearch] = useState("");
-	// const [searchResults, setSearchResults] = useState([]);
-	// const [lyrics, setLyrics] = useState("");
 	const accessToken = useAuth(code);
 	const [currentTrack, setCurrentTrack] = useState();
 	const [platform, setPlatform] = useState(null);
@@ -34,28 +28,32 @@ export default function Dashboard({ code }) {
 	useEffect(() => {
 		if (!accessToken) return;
 		spotifyApi.setAccessToken(accessToken);
-	}, [accessToken]);
-
-	useEffect(() => {
-		if (accessToken) {
-			fetchPlaylists();
-		}
+		fetchPlaylists();
 	}, [accessToken]);
 
 	const fetchPlaylists = async () => {
 		try {
-			const response = await fetch(`${API_BASE_URL}/me/playlists`, {
-				headers: {
-					Authorization: `Bearer ${accessToken}`,
-				},
-			});
+			let playlists = [];
+			let nextUrl = `${API_BASE_URL}/me/playlists`;
 
-			if (response.ok) {
-				const data = await response.json();
-				setSpotifyPlaylists(data.items);
-			} else {
-				console.log("Error:", response.status);
+			while (nextUrl) {
+				const response = await fetch(nextUrl, {
+					headers: {
+						Authorization: `Bearer ${accessToken}`,
+					},
+				});
+
+				if (response.ok) {
+					const data = await response.json();
+					playlists = playlists.concat(data.items);
+					nextUrl = data.next; // Get the URL for the next page of playlists
+				} else {
+					console.log("Error:", response.status);
+					break; // Stop fetching if there's an error
+				}
 			}
+
+			setSpotifyPlaylists(playlists);
 		} catch (error) {
 			console.log("Error:", error);
 		}
@@ -79,9 +77,6 @@ export default function Dashboard({ code }) {
 			console.log("Error:", error);
 		}
 	};
-	const fetchYoutubePlaylistTracks = async (playlistId) => {
-		setYoutubePlaylistTracks(youtubePlaylists[playlistId].songs);
-	};
 
 	const spotifyHandlePlaylistSelect = async (playlist) => {
 		setSpotifySelectedPlaylist(playlist);
@@ -89,17 +84,10 @@ export default function Dashboard({ code }) {
 		await fetchPlaylistTracks(playlist.id);
 	};
 
-	const youtubeHandlePlaylistSelect = async (playlist) => {
-		setYouTubeSelectedPlaylist(playlist);
-		console.log("hello");
-		await fetchYoutubePlaylistTracks(playlist.id);
-	};
 	const spotifyDeselectPlaylist = () => {};
 
 	const spotifyChooseTrack = (track) => {
 		setCurrentTrack(track);
-		// setSearch("");
-		// setLyrics("");
 	};
 
 	/**-----------------------------------------------------------------------------------------------------------------------
@@ -111,6 +99,14 @@ export default function Dashboard({ code }) {
 	const [youtubePlaylistTracks, setYoutubePlaylistTracks] = useState([]);
 	const [youtubeSelectedPlaylist, setYouTubeSelectedPlaylist] = useState(null);
 
+	const fetchYoutubePlaylistTracks = async (playlistId) => {
+		setYoutubePlaylistTracks(youtubePlaylists[playlistId].songs);
+	};
+	const youtubeHandlePlaylistSelect = async (playlist) => {
+		setYouTubeSelectedPlaylist(playlist);
+		console.log("hello");
+		await fetchYoutubePlaylistTracks(playlist.id);
+	};
 	const handlePlayerReady = (event) => {
 		setPlayer(event.target);
 		// setYoutubeCurrentIndex(0);
@@ -169,34 +165,21 @@ export default function Dashboard({ code }) {
 		// { name: "Live Songs", songs: ["ZWVGr7cQZ_Y", "Ti4blSWS6bY", "8puqbXK3k-w"] },
 	];
 
-	// const spotifyTrackURIs = spotifyPlaylistTracks.map((playlistTrack) => playlistTrack.track.uri);
-	// console.log(spotifyTrackURIs);
+	const spotifyTrackURIs = spotifyPlaylistTracks.map((playlistTrack) => playlistTrack.track.uri);
+	console.log(spotifySelectedPlaylist?.uri);
 
 	return (
-		<div>
-			<Tracks spotifySelectedPlaylist={spotifySelectedPlaylist} spotifyPlaylistTracks={spotifyPlaylistTracks} spotifyChooseTrack={spotifyChooseTrack} youtubeSelectedPlaylist={youtubeSelectedPlaylist} youtubePlaylistTracks={youtubePlaylistTracks} youtubeChooseTrack={youtubeChooseTrack} />
+		<div className="dashboard">
 			<ControlPanel spotifyPlaylists={spotifyPlaylists} youtubePlaylists={youtubePlaylists} spotifyHandlePlaylistSelect={spotifyHandlePlaylistSelect} youtubeHandlePlaylistSelect={youtubeHandlePlaylistSelect} />
-			{youtubeSelectedPlaylist && <YoutubePlayer youtubePlaylist={youtubePlaylists[youtubeSelectedPlaylist.id]} handlePrevious={handlePrevious} handleNext={handleNext} handlePlay={handlePlay} handlePause={handlePause} handlePlaylistEnd={handlePlaylistEnd} youtubeCurrentIndex={youtubeCurrentIndex} youtubeIsPlaying={youtubeIsPlaying} handlePlayerReady={handlePlayerReady} />}
-			<div className="Spotify-Player">
-				<SpotifyPlayer accessToken={accessToken} currentTrack={currentTrack}></SpotifyPlayer>
-				{/* <Player accessToken={accessToken} trackUri={currentTrack?.uri} spotifyTrackURIs={spotifyTrackURIs} /> */}
-			</div>
+			<MediaPanel accessToken={accessToken} trackUri={currentTrack?.uri} playlistUri={spotifyTrackURIs} />
+			<Tracks spotifySelectedPlaylist={spotifySelectedPlaylist} spotifyPlaylistTracks={spotifyPlaylistTracks} spotifyChooseTrack={spotifyChooseTrack} youtubeSelectedPlaylist={youtubeSelectedPlaylist} youtubePlaylistTracks={youtubePlaylistTracks} youtubeChooseTrack={youtubeChooseTrack} />
+
+			{/* {youtubeSelectedPlaylist && <YoutubePlayer youtubePlaylist={youtubePlaylists[youtubeSelectedPlaylist.id]} handlePrevious={handlePrevious} handleNext={handleNext} handlePlay={handlePlay} handlePause={handlePause} handlePlaylistEnd={handlePlaylistEnd} youtubeCurrentIndex={youtubeCurrentIndex} youtubeIsPlaying={youtubeIsPlaying} handlePlayerReady={handlePlayerReady} />} */}
+
+			{/* <div className="Spotify-Player"> */}
+			{/* <SpotifyPlayer accessToken={accessToken} currentTrack={currentTrack}></SpotifyPlayer> */}
+
+			{/* </div> */}
 		</div>
 	);
-}
-
-{
-	/* <Form.Control type="search" placeholder="Search Songs/Artists" value={search} onChange={(e) => setSearch(e.target.value)} /> */
-}
-{
-	/* <div className="flex-grow-1 my-2" style={{ overflowY: "auto" }}>
-				{searchResults.map((track) => (
-					<TrackSearchResult track={track} key={track.uri} chooseTrack={chooseTrack} />
-				))}
-				{searchResults.length === 0 && (
-					<div className="text-center" style={{ whiteSpace: "pre" }}>
-						{lyrics}
-					</div>
-				)}
-			</div> */
 }

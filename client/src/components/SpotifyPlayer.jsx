@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 const SpotifyPlayer = ({ accessToken, currentTrack }) => {
 	const [player, setPlayer] = useState(null);
 	const [isPaused, setPaused] = useState(false);
-
+	const ac = accessToken;
 	useEffect(() => {
 		const script = document.createElement("script");
 		script.src = "https://sdk.scdn.co/spotify-player.js";
@@ -14,7 +14,7 @@ const SpotifyPlayer = ({ accessToken, currentTrack }) => {
 			const newPlayer = new window.Spotify.Player({
 				name: "React Spotify Player",
 				getOAuthToken: (cb) => {
-					cb(accessToken);
+					cb(ac);
 				},
 			});
 			setPlayer(newPlayer);
@@ -23,24 +23,17 @@ const SpotifyPlayer = ({ accessToken, currentTrack }) => {
 					console.log("Connected to Spotify player!");
 				}
 			});
-
-			// return () => {
-			// 	newPlayer.disconnect();
-			// 	newPlayer.removeListener("ready");
-			// 	newPlayer.removeListener("not_ready");
-			// 	newPlayer.removeListener("player_state_changed");
-			// };
 		};
-	}, [currentTrack?.uri]);
+	}, [currentTrack, accessToken]);
 
 	useEffect(() => {
-		if (currentTrack?.uri) {
+		if (currentTrack?.uri && player && accessToken) {
 			player.addListener("ready", ({ device_id }) => {
 				player._options.id = device_id;
 				player._options.getOAuthToken((access_token) => {
 					fetch(`https://api.spotify.com/v1/me/player/play?device_id=${device_id}`, {
 						method: "PUT",
-						body: JSON.stringify({ uris: [currentTrack?.uri] }),
+						body: JSON.stringify({ uris: [currentTrack.uri] }),
 						headers: {
 							"Content-Type": "application/json",
 							Authorization: `Bearer ${access_token}`,
@@ -57,7 +50,7 @@ const SpotifyPlayer = ({ accessToken, currentTrack }) => {
 				});
 			});
 		}
-	}, [currentTrack?.uri]);
+	}, [player]);
 
 	const handlePreviousTrack = () => {
 		if (player !== null) {

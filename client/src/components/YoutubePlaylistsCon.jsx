@@ -1,11 +1,13 @@
 import YoutubePlaylist from "./YoutubePlaylist";
 
 const YoutubePlaylistsCon = ({ youtubePlaylists, youtubeHandlePlaylistSelect }) => {
-	// console.log(youtubePlaylists[1].id);
 	return (
-		<div className="Youtube-Playlists">
-			<h3>Youtube Playlists</h3>
-			<div className="playlists">
+		<div className="Youtube-Playlists-con">
+			<div className="Youtube-Playlists-header">
+				<h3>YOUTUBE PLAYLISTS</h3>
+				<button>Login to Youtube</button>
+			</div>
+			<div className="Youtube-Playlists">
 				{youtubePlaylists.map((youtubePlaylist) => (
 					<YoutubePlaylist key={youtubePlaylist.id} title={youtubePlaylist.playlistTitle} handleClick={() => youtubeHandlePlaylistSelect(youtubePlaylist)} />
 				))}
