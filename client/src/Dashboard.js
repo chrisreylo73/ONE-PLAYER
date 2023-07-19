@@ -166,12 +166,14 @@ export default function Dashboard({ code }) {
 	];
 
 	const spotifyTrackURIs = spotifyPlaylistTracks.map((playlistTrack) => playlistTrack.track.uri);
-	console.log(spotifySelectedPlaylist?.uri);
+	const playlistAlbumCovers = spotifyPlaylistTracks.map((playlistTrack) => playlistTrack.track.album.images[0].url);
+	console.log(playlistAlbumCovers);
+	console.log(currentTrack);
 
 	return (
 		<div className="dashboard">
 			<ControlPanel spotifyPlaylists={spotifyPlaylists} youtubePlaylists={youtubePlaylists} spotifyHandlePlaylistSelect={spotifyHandlePlaylistSelect} youtubeHandlePlaylistSelect={youtubeHandlePlaylistSelect} />
-			<MediaPanel accessToken={accessToken} trackUri={currentTrack?.uri} playlistUri={spotifyTrackURIs} />
+			<MediaPanel accessToken={accessToken} trackUri={currentTrack?.uri} playlistUri={spotifyTrackURIs} playlistAlbumCovers={playlistAlbumCovers} />
 			<Tracks spotifySelectedPlaylist={spotifySelectedPlaylist} spotifyPlaylistTracks={spotifyPlaylistTracks} spotifyChooseTrack={spotifyChooseTrack} youtubeSelectedPlaylist={youtubeSelectedPlaylist} youtubePlaylistTracks={youtubePlaylistTracks} youtubeChooseTrack={youtubeChooseTrack} />
 
 			{/* {youtubeSelectedPlaylist && <YoutubePlayer youtubePlaylist={youtubePlaylists[youtubeSelectedPlaylist.id]} handlePrevious={handlePrevious} handleNext={handleNext} handlePlay={handlePlay} handlePause={handlePause} handlePlaylistEnd={handlePlaylistEnd} youtubeCurrentIndex={youtubeCurrentIndex} youtubeIsPlaying={youtubeIsPlaying} handlePlayerReady={handlePlayerReady} />} */}

@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import SpotifyPlayer from "react-spotify-web-playback";
 
-export default function Player({ accessToken, trackUri, playlistUri }) {
+export default function Player({ accessToken, trackUri, playlistUri, currentSongIndex, setCurrentSongIndex }) {
 	const [play, setPlay] = useState(false);
-	const [currentSongIndex, setCurrentSongIndex] = useState(0); // Add state for the current song index
-	const [currentSongCover, setCurrentSongCover] = useState(trackUri); // Add state for the current
+	// const [currentSongIndex, setCurrentSongIndex] = useState(0); // Add state for the current song index
+	// const [currentSongCover, setCurrentSongCover] = useState(trackUri); // Add state for the current
 	useEffect(() => {
 		setPlay(true);
 		const newIndex = playlistUri.findIndex((uri) => uri === trackUri);
@@ -12,9 +12,9 @@ export default function Player({ accessToken, trackUri, playlistUri }) {
 		console.log(newIndex); // Find the new index based on the provided trackUri
 	}, [trackUri]);
 
-	const handleSongChange = (cover) => {
-		setCurrentSongCover(cover);
-	};
+	// const handleSongChange = (cover) => {
+	// 	setCurrentSongCover(cover);
+	// };
 	console.log(trackUri);
 	// activeColor: string;
 	//   altColor: string;
@@ -46,8 +46,10 @@ export default function Player({ accessToken, trackUri, playlistUri }) {
 					sliderColor: "#0011ff",
 					trackArtistColor: "#ccc",
 					trackNameColor: "#fff",
-					sliderHandleColor: "#2c373e",
-					sliderTrackBorderRadius: 100,
+					sliderHandleColor: "#ffffff",
+					sliderHeight: 5,
+					sliderTrackColor: "#191919",
+					sliderTrackBorderRadius: 10,
 					sliderHandleBorderRadius: 10,
 				}}
 				token={accessToken}
@@ -55,11 +57,12 @@ export default function Player({ accessToken, trackUri, playlistUri }) {
 				callback={(state) => {
 					if (!state.isPlaying) setPlay(false);
 					const currentSongIndex = playlistUri.findIndex((uri) => uri === state.track?.uri);
-					handleSongChange(state.track.image);
+					// handleSongChange(state.track.image);
 					// console.log(currentSongIndex);
+					setCurrentSongIndex(currentSongIndex);
 					console.log(state.track);
 				}}
-				magnifySliderOnHover={true}
+				// magnifySliderOnHover={true}
 				offset={currentSongIndex}
 				// shuffle={true}
 				play={play}

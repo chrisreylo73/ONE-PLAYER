@@ -7,7 +7,7 @@ const Tracks = ({ spotifySelectedPlaylist, youtubeSelectedPlaylist, youtubePlayl
 		return (
 			<div className="tracks">
 				<div className="playlistHeaders-youtube">
-					<h3>{youtubeSelectedPlaylist.playlistTitle}</h3>
+					<h3 style={{ textTransform: "uppercase" }}>{youtubeSelectedPlaylist.playlistTitle}</h3>
 				</div>
 				<div className="tracks-content">
 					<ul>
@@ -22,7 +22,7 @@ const Tracks = ({ spotifySelectedPlaylist, youtubeSelectedPlaylist, youtubePlayl
 		return (
 			<div className="tracks">
 				<div className="playlistHeaders-spotify">
-					<h3>{spotifySelectedPlaylist.name}</h3>
+					<h3 style={{ textTransform: "uppercase" }}>{spotifySelectedPlaylist.name}</h3>
 				</div>
 				<div className="tracks-content">
 					<ul>
@@ -38,7 +38,7 @@ const Tracks = ({ spotifySelectedPlaylist, youtubeSelectedPlaylist, youtubePlayl
 		return (
 			<div className="tracks">
 				<div className="playlistHeaders-spotify">
-					<h3>{spotifySelectedPlaylist.name}</h3>
+					<h3 style={{ textTransform: "uppercase" }}>{spotifySelectedPlaylist.name}</h3>
 				</div>
 				<div className="tracks-content">
 					<ul>
@@ -50,7 +50,7 @@ const Tracks = ({ spotifySelectedPlaylist, youtubeSelectedPlaylist, youtubePlayl
 				</div>
 
 				<div className="playlistHeaders-youtube">
-					<h3>{youtubeSelectedPlaylist.playlistTitle}</h3>
+					<h3 style={{ textTransform: "uppercase" }}>{youtubeSelectedPlaylist.playlistTitle}</h3>
 				</div>
 				<div className="tracks-content">
 					<ul>
