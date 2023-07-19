@@ -57,10 +57,8 @@ export default function Player({ accessToken, trackUri, playlistUri, currentSong
 				callback={(state) => {
 					if (!state.isPlaying) setPlay(false);
 					const currentSongIndex = playlistUri.findIndex((uri) => uri === state.track?.uri);
-					// handleSongChange(state.track.image);
-					// console.log(currentSongIndex);
 					setCurrentSongIndex(currentSongIndex);
-					console.log(state.track);
+					// console.log(state.track);
 				}}
 				// magnifySliderOnHover={true}
 				offset={currentSongIndex}
