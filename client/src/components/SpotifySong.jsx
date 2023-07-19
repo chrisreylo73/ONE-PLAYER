@@ -7,7 +7,6 @@ const SpotifySong = ({ spotifyChooseTrack, track }) => {
 	function handlePlay() {
 		spotifyChooseTrack(track);
 	}
-
 	return (
 		<div className="song" onClick={handlePlay}>
 			<img className="album-cover" src={track.album.images[0].url} alt="Album Cover" />

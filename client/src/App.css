@@ -47,15 +47,17 @@ body {
   padding-top: 10px;
 }
 
-.playlist {
+.s-playlist{
+
   display: flex;
-  align-items: center;
+  /* align-items: center; */
+  flex-direction: row;
   justify-content: flex-start;
   padding-left: 10px;
   padding-right: 10px;
-  margin-left: 5px;
+  /* margin-left: 5px; */
   width: 90%;
-  height: 30px;
+  height: 35px;
   background-color: #343a3f;
   font-size: 14px;
   color: whitesmoke;
@@ -63,10 +65,38 @@ body {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
   margin-top: 8px;
 }
+
+.y-playlist{
+
+  display: flex;
+  /* align-items: center; */
+  flex-direction: row;
+  justify-content: flex-start;
+  padding-left: 10px;
+  padding-right: 10px;
+  /* margin-left: 5px; */
+  width: 90%;
+  height: 35px;
+  background-color: #343a3f;
+  font-size: 14px;
+  color: whitesmoke;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+  margin-top: 8px;
+}
+.s-playlist.selected {
+  background-color: #6e5cc0;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.9);
+}
+.y-playlist.selected{
+  background-color: #6e5cc0;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.9);
+}
+
 .playlist p, .song p {
   text-overflow: ellipsis;
 	white-space: nowrap;
-	overflow: hidden;
+	overflow: hidden; 
 }
 
 .Youtube-Playlists-con, .Spotify-Playlists-con {
@@ -135,19 +165,12 @@ body {
 .Spotify-Playlists.hovered {
   height: 310px; /* Adjust the desired height */
 }
+
 /**-----------------------------------------------------------------------------------------------------------------------
  *                                                    MEDIA PLAYER
  *-----------------------------------------------------------------------------------------------------------------------**/
-/* .whiteCircle{
-  position: absolute;
-  height: 250px;
-  width: 250px;
-  background-color: #ffffff;
-  box-shadow: inline 0 0 5px rgba(0, 0, 0, 0.9);
-  border-radius: 100%;
-  margin-bottom: 430px
-} */
-.albumCover {
+
+ .albumCover {
   height: 700px;
   width: 700px;
   border-radius: 100%;
@@ -233,12 +256,15 @@ body {
 }
 
 .playlistHeaders-spotify, .playlistHeaders-youtube{
-  width: 100%;
+  width: 90%;
+  margin-left: 20px;
   display: flex;
   align-items: center;
-  justify-content: center;
-  /* margin-top: 15px; */
+  justify-content: flex-start;
   color: #596c79;
+  text-overflow: ellipsis;
+	white-space: nowrap;
+	/* overflow: hidden;  */
 }
 
 

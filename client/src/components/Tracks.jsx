@@ -1,6 +1,7 @@
 import SpotifySong from "./SpotifySong";
 import YoutubeSong from "./YoutubeSong";
 const Tracks = ({ spotifySelectedPlaylist, youtubeSelectedPlaylist, youtubePlaylistTracks, youtubeChooseTrack, spotifyPlaylistTracks, spotifyChooseTrack }) => {
+	console.log(spotifySelectedPlaylist);
 	if (spotifySelectedPlaylist == null && youtubeSelectedPlaylist == null) {
 		return <div className="tracks"></div>;
 	} else if (spotifySelectedPlaylist == null) {

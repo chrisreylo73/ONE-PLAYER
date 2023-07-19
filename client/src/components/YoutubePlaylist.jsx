@@ -1,19 +1,11 @@
 import React from "react";
 
-const YoutubePlaylist = ({ title, handleClick }) => {
-	// console.log(title);
-	const test = () => {
-		console.log("WTF");
-	};
+const YoutubePlaylist = ({ title, handleClick, isSelected }) => {
 	return (
-		<div className="playlist" onClick={handleClick}>
+		<div className={`y-playlist ${isSelected ? "selected" : ""}`} onClick={handleClick}>
 			<p>{title}</p>
 		</div>
 	);
-};
-
-YoutubePlaylist.defaultProps = {
-	title: "Title?",
 };
 
 export default YoutubePlaylist;

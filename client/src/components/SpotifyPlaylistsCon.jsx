@@ -1,8 +1,9 @@
-import Playlist from "./SpotifyPlaylist";
+import SpotifyPlaylist from "./SpotifyPlaylist";
 import { useState } from "react";
 // import Login from "../Login";
-const SpotifyPlaylistsCon = ({ spotifyPlaylists, spotifyHandlePlaylistSelect }) => {
+const SpotifyPlaylistsCon = ({ spotifyPlaylists, spotifyHandlePlaylistSelect, setSpotifySelectedPlaylist }) => {
 	const [isHovered, setIsHovered] = useState(false);
+	const [selectedPlaylist, setSelectedPlaylist] = useState(null);
 
 	const handleMouseEnter = () => {
 		setIsHovered(true);
@@ -21,7 +22,15 @@ const SpotifyPlaylistsCon = ({ spotifyPlaylists, spotifyHandlePlaylistSelect }) 
 			</div>
 			<div className={`Spotify-Playlists ${isHovered ? "hovered" : ""}`} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
 				{spotifyPlaylists.map((spotifyPlaylist) => (
-					<Playlist key={spotifyPlaylist.id} title={spotifyPlaylist.name} handleClick={() => spotifyHandlePlaylistSelect(spotifyPlaylist)} />
+					<SpotifyPlaylist
+						key={spotifyPlaylist.id}
+						title={spotifyPlaylist.name}
+						isSelected={spotifyPlaylist === selectedPlaylist}
+						handleClick={() => {
+							spotifyHandlePlaylistSelect(spotifyPlaylist);
+							setSelectedPlaylist(spotifyPlaylist); // Set the selected playlist
+						}}
+					/>
 				))}
 			</div>
 		</div>

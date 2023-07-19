@@ -1,16 +1,11 @@
 import React from "react";
 
-const SpotifyPlaylist = ({ title, handleClick }) => {
-	// console.log(title);
+const SpotifyPlaylist = ({ title, handleClick, isSelected }) => {
 	return (
-		<div className="playlist" onClick={handleClick}>
+		<div className={`s-playlist ${isSelected ? "selected" : ""}`} onClick={handleClick}>
 			<p>{title}</p>
 		</div>
 	);
-};
-
-SpotifyPlaylist.defaultProps = {
-	title: "Title?",
 };
 
 export default SpotifyPlaylist;

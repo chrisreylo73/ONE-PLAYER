@@ -1,6 +1,9 @@
 import YoutubePlaylist from "./YoutubePlaylist";
+import { useState } from "react";
 
 const YoutubePlaylistsCon = ({ youtubePlaylists, youtubeHandlePlaylistSelect }) => {
+	const [selectedPlaylist, setSelectedPlaylist] = useState(null);
+
 	return (
 		<div className="Youtube-Playlists-con">
 			<div className="Youtube-Playlists-header">
@@ -9,7 +12,15 @@ const YoutubePlaylistsCon = ({ youtubePlaylists, youtubeHandlePlaylistSelect }) 
 			</div>
 			<div className="Youtube-Playlists">
 				{youtubePlaylists.map((youtubePlaylist) => (
-					<YoutubePlaylist key={youtubePlaylist.id} title={youtubePlaylist.playlistTitle} handleClick={() => youtubeHandlePlaylistSelect(youtubePlaylist)} />
+					<YoutubePlaylist
+						key={youtubePlaylist.id}
+						title={youtubePlaylist.playlistTitle}
+						isSelected={youtubePlaylist.id === (selectedPlaylist && selectedPlaylist.id)}
+						handleClick={() => {
+							youtubeHandlePlaylistSelect(youtubePlaylist);
+							setSelectedPlaylist(youtubePlaylist);
+						}}
+					/>
 				))}
 			</div>
 		</div>

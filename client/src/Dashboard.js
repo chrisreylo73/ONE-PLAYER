@@ -80,11 +80,13 @@ export default function Dashboard({ code }) {
 
 	const spotifyHandlePlaylistSelect = async (playlist) => {
 		setSpotifySelectedPlaylist(playlist);
-		console.log("HI");
 		await fetchPlaylistTracks(playlist.id);
 	};
 
-	const spotifyDeselectPlaylist = () => {};
+	const spotifyDeselectPlaylist = () => {
+		console.log("Deselect");
+		setSpotifySelectedPlaylist(null);
+	};
 
 	const spotifyChooseTrack = (track) => {
 		setCurrentTrack(track);
@@ -167,12 +169,12 @@ export default function Dashboard({ code }) {
 
 	const spotifyTrackURIs = spotifyPlaylistTracks.map((playlistTrack) => playlistTrack.track.uri);
 	const playlistAlbumCovers = spotifyPlaylistTracks.map((playlistTrack) => playlistTrack.track.album.images[0].url);
-	console.log(playlistAlbumCovers);
-	console.log(currentTrack);
+	// console.log(playlistAlbumCovers);
+	// console.log(currentTrack);
 
 	return (
 		<div className="dashboard">
-			<ControlPanel spotifyPlaylists={spotifyPlaylists} youtubePlaylists={youtubePlaylists} spotifyHandlePlaylistSelect={spotifyHandlePlaylistSelect} youtubeHandlePlaylistSelect={youtubeHandlePlaylistSelect} />
+			<ControlPanel spotifyPlaylists={spotifyPlaylists} youtubePlaylists={youtubePlaylists} spotifyHandlePlaylistSelect={spotifyHandlePlaylistSelect} youtubeHandlePlaylistSelect={youtubeHandlePlaylistSelect} setSpotifySelectedPlaylist={setSpotifySelectedPlaylist} />
 			<MediaPanel accessToken={accessToken} trackUri={currentTrack?.uri} playlistUri={spotifyTrackURIs} playlistAlbumCovers={playlistAlbumCovers} />
 			<Tracks spotifySelectedPlaylist={spotifySelectedPlaylist} spotifyPlaylistTracks={spotifyPlaylistTracks} spotifyChooseTrack={spotifyChooseTrack} youtubeSelectedPlaylist={youtubeSelectedPlaylist} youtubePlaylistTracks={youtubePlaylistTracks} youtubeChooseTrack={youtubeChooseTrack} />
 
