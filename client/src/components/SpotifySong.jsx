@@ -1,14 +1,24 @@
-import React from "react";
+import { useState } from "react";
 
 const SpotifySong = ({ spotifyChooseTrack, track }) => {
+	const [isHovered, setIsHovered] = useState(false);
 	const minutes = Math.floor(track.duration_ms / 60000);
 	const seconds = Math.floor((track.duration_ms % 60000) / 1000);
 	const formattedLength = track.duration_ms ? `${minutes}:${seconds.toString().padStart(2, "0")}` : "length?";
+
+	const handleMouseEnter = () => {
+		setIsHovered(true);
+	};
+
+	const handleMouseLeave = () => {
+		setIsHovered(false);
+	};
+
 	function handlePlay() {
 		spotifyChooseTrack(track);
 	}
 	return (
-		<div className="song" onClick={handlePlay}>
+		<div className={`song ${isHovered ? "hovered" : ""}`} onClick={handlePlay} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
 			<img className="album-cover" src={track.album.images[0].url} alt="Album Cover" />
 			<div className="songInfo">
 				<p id="title">{track.name}</p>

@@ -1,7 +1,16 @@
 import SpotifySong from "./SpotifySong";
 import YoutubeSong from "./YoutubeSong";
+import { useState } from "react";
 const Tracks = ({ spotifySelectedPlaylist, youtubeSelectedPlaylist, youtubePlaylistTracks, youtubeChooseTrack, spotifyPlaylistTracks, spotifyChooseTrack }) => {
-	console.log(spotifySelectedPlaylist);
+	const [isHovered, setIsHovered] = useState(false);
+	const handleMouseEnter = () => {
+		setIsHovered(true);
+	};
+
+	const handleMouseLeave = () => {
+		setIsHovered(false);
+	};
+
 	if (spotifySelectedPlaylist == null && youtubeSelectedPlaylist == null) {
 		return <div className="tracks"></div>;
 	} else if (spotifySelectedPlaylist == null) {
@@ -29,7 +38,7 @@ const Tracks = ({ spotifySelectedPlaylist, youtubeSelectedPlaylist, youtubePlayl
 					<ul>
 						{spotifyPlaylistTracks.map((playlistTrack) => {
 							const track = playlistTrack.track;
-							return <SpotifySong spotifyChooseTrack={spotifyChooseTrack} track={track} />;
+							return <SpotifySong key={track.id} spotifyChooseTrack={spotifyChooseTrack} track={track} />;
 						})}
 					</ul>
 				</div>
