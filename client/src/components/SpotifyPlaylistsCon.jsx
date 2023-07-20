@@ -1,7 +1,7 @@
 import SpotifyPlaylist from "./SpotifyPlaylist";
 import { useState } from "react";
-// import Login from "../Login";
-const SpotifyPlaylistsCon = ({ spotifyPlaylists, spotifyHandlePlaylistSelect, setSpotifySelectedPlaylist }) => {
+import Login from "../Login";
+const SpotifyPlaylistsCon = ({ spotifyPlaylists, spotifyHandlePlaylistSelect, setSpotifySelectedPlaylist, setCode }) => {
 	const [isHovered, setIsHovered] = useState(false);
 	const [selectedPlaylist, setSelectedPlaylist] = useState(null);
 
@@ -17,8 +17,7 @@ const SpotifyPlaylistsCon = ({ spotifyPlaylists, spotifyHandlePlaylistSelect, se
 		<div className="Spotify-Playlists-con">
 			<div className="Spotify-Playlists-header">
 				<h3>SPOTIFY PLAYLISTS</h3>
-				<button>Login to Spotify</button>
-				{/* <Login /> */}
+				<Login setCode={setCode} />
 			</div>
 			<div className={`Spotify-Playlists ${isHovered ? "hovered" : ""}`} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
 				{spotifyPlaylists.map((spotifyPlaylist) => (

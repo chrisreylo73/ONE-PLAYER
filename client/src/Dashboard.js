@@ -6,6 +6,8 @@ import SpotifyWebApi from "spotify-web-api-node";
 import Tracks from "./components/Tracks";
 import ControlPanel from "./components/ControlPanel";
 import MediaPanel from "./components/MediaPanel";
+import axios from "axios";
+import Login from "./Login";
 
 const API_BASE_URL = "https://api.spotify.com/v1";
 
@@ -13,22 +15,84 @@ const spotifyApi = new SpotifyWebApi({
 	clientId: "8b945ef10ea24755b83ac50cede405a0",
 });
 
-export default function Dashboard({ code }) {
+export default function Dashboard() {
 	/**-----------------------------------------------------------------------------------------------------------------------
 	 *                                                    SPOTIFY
 	 *-----------------------------------------------------------------------------------------------------------------------**/
-	const accessToken = useAuth(code);
+	const [code, setCode] = useState(null);
+	// const accessToken = useAuth(code);
 	const [currentTrack, setCurrentTrack] = useState();
 	const [platform, setPlatform] = useState(null);
 	const [spotifyPlaylists, setSpotifyPlaylists] = useState([]);
 	const [spotifySelectedPlaylist, setSpotifySelectedPlaylist] = useState(null);
 	const [spotifyPlaylistTracks, setSpotifyPlaylistTracks] = useState([]);
 
+	const [accessToken, setAccessToken] = useState();
+	const [refreshToken, setRefreshToken] = useState();
+	const [expiresIn, setExpiresIn] = useState();
+
+	const CLIENT_ID = "b96044a084a542c691fe9b0eca9684de";
+	const REDIRECT_URI = "http://localhost:3000";
+	const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
+	const RESPONSE_TYPE = "code";
+	const SCOPES = "streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state";
+	const AUTH_URL = `${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&response_type=${RESPONSE_TYPE}&redirect_uri=${REDIRECT_URI}&scope=${SCOPES}`;
+	// const code = new URLSearchParams(window.location.search).get("code");
+	// setCode(new URLSearchParams(window.location.search).get("code"));
+	useEffect(() => {
+		if (new URLSearchParams(window.location.search).get("code") === null) {
+			window.location.href = AUTH_URL;
+		}
+	}, []);
+	useEffect(() => {
+		console.log("hey");
+		if (code !== null) {
+			axios
+				.post("http://localhost:3001/login", {
+					code,
+				})
+				.then((res) => {
+					setAccessToken(res.data.accessToken);
+					setRefreshToken(res.data.refreshToken);
+					setExpiresIn(res.data.expiresIn);
+					window.history.pushState({}, null, "/");
+				})
+				.catch(() => {
+					window.location = "/";
+				});
+		}
+	}, [code]);
+
+	useEffect(() => {
+		if (!refreshToken || !expiresIn) return;
+		const interval = setInterval(() => {
+			axios
+				.post("http://localhost:3001/refresh", {
+					refreshToken,
+				})
+				.then((res) => {
+					setAccessToken(res.data.accessToken);
+					setExpiresIn(res.data.expiresIn);
+				})
+				.catch(() => {
+					window.location = "/";
+				});
+		}, (expiresIn - 60) * 1000);
+
+		return () => clearInterval(interval);
+	}, [refreshToken, expiresIn]);
+
 	useEffect(() => {
 		if (!accessToken) return;
 		spotifyApi.setAccessToken(accessToken);
 		fetchPlaylists();
 	}, [accessToken]);
+
+	const spotifyLogin = () => {
+		// console.log(code);
+		setCode(new URLSearchParams(window.location.search).get("code"));
+		// console.log(code);
+	};
 
 	const fetchPlaylists = async () => {
 		try {
@@ -173,7 +237,7 @@ export default function Dashboard({ code }) {
 
 	return (
 		<div className="dashboard">
-			<ControlPanel spotifyPlaylists={spotifyPlaylists} youtubePlaylists={youtubePlaylists} spotifyHandlePlaylistSelect={spotifyHandlePlaylistSelect} youtubeHandlePlaylistSelect={youtubeHandlePlaylistSelect} setSpotifySelectedPlaylist={setSpotifySelectedPlaylist} />
+			<ControlPanel setCode={setCode} spotifyPlaylists={spotifyPlaylists} youtubePlaylists={youtubePlaylists} spotifyHandlePlaylistSelect={spotifyHandlePlaylistSelect} youtubeHandlePlaylistSelect={youtubeHandlePlaylistSelect} setSpotifySelectedPlaylist={setSpotifySelectedPlaylist} />
 			<MediaPanel accessToken={accessToken} trackUri={currentTrack?.uri} playlistUri={spotifyTrackURIs} playlistAlbumCovers={playlistAlbumCovers} />
 			<Tracks spotifySelectedPlaylist={spotifySelectedPlaylist} spotifyPlaylistTracks={spotifyPlaylistTracks} spotifyChooseTrack={spotifyChooseTrack} youtubeSelectedPlaylist={youtubeSelectedPlaylist} youtubePlaylistTracks={youtubePlaylistTracks} youtubeChooseTrack={youtubeChooseTrack} />
 

@@ -7,13 +7,17 @@ const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
 const RESPONSE_TYPE = "code";
 const SCOPES = "streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state";
 const AUTH_URL = `${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&response_type=${RESPONSE_TYPE}&redirect_uri=${REDIRECT_URI}&scope=${SCOPES}`;
-const Login = () => {
+const Login = ({ setCode }) => {
+	const handleClick = () => {
+		if (new URLSearchParams(window.location.search).get("code") !== null) {
+			setCode(new URLSearchParams(window.location.search).get("code"));
+		}
+	};
+
 	return (
-		<Container className="d-flex justify-content-center align-items-center" style={{ minHeight: "100vh" }}>
-			<a className="btn btn-success btn-lg" href={AUTH_URL}>
-				Login With Spotify
-			</a>
-		</Container>
+		<div>
+			<button onClick={handleClick}>Login to Spotify</button>
+		</div>
 	);
 };
 export default Login;

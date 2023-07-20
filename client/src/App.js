@@ -3,10 +3,11 @@ import Dashboard from "./Dashboard";
 import "./App.css";
 import Login from "./Login";
 
-const code = new URLSearchParams(window.location.search).get("code");
+// const code = new URLSearchParams(window.location.search).get("code");
+const code = null;
 
 function App() {
-	return code ? <Dashboard code={code} /> : <Login />;
+	return <Dashboard code={code} />;
 }
 
 export default App;
