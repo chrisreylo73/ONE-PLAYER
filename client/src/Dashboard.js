@@ -5,11 +5,10 @@ import Player from "./components/Player";
 import SpotifyWebApi from "spotify-web-api-node";
 import Tracks from "./components/Tracks";
 import ControlPanel from "./components/ControlPanel";
-import YoutubePlayer from "./components/YoutubePlayer";
-import SpotifyPlayer from "./components/SpotifyPlayer";
 import MediaPanel from "./components/MediaPanel";
 
 const API_BASE_URL = "https://api.spotify.com/v1";
+
 const spotifyApi = new SpotifyWebApi({
 	clientId: "8b945ef10ea24755b83ac50cede405a0",
 });
