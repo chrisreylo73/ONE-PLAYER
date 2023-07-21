@@ -1,6 +1,7 @@
 import SpotifySong from "./SpotifySong";
 import YoutubeSong from "./YoutubeSong";
 import { useState } from "react";
+
 const Tracks = ({ spotifySelectedPlaylist, youtubeSelectedPlaylist, youtubePlaylistTracks, youtubeChooseTrack, spotifyPlaylistTracks, spotifyChooseTrack }) => {
 	const [isHovered, setIsHovered] = useState(false);
 	const handleMouseEnter = () => {
@@ -19,13 +20,9 @@ const Tracks = ({ spotifySelectedPlaylist, youtubeSelectedPlaylist, youtubePlayl
 				<div className="playlistHeaders-youtube">
 					<h3 style={{ textTransform: "uppercase" }}>{youtubeSelectedPlaylist.playlistTitle}</h3>
 				</div>
-				<div className="tracks-content">
-					<ul>
-						{youtubePlaylistTracks.map((youtubePlaylistTrack) => {
-							return <YoutubeSong youtubeChooseTrack={youtubeChooseTrack} track={youtubePlaylistTrack} />;
-						})}
-					</ul>
-				</div>
+				{youtubePlaylistTracks.map((youtubePlaylistTrack) => (
+					<YoutubeSong youtubeChooseTrack={youtubeChooseTrack} track={youtubePlaylistTrack} />
+				))}
 			</div>
 		);
 	} else if (youtubeSelectedPlaylist == null) {
@@ -34,14 +31,10 @@ const Tracks = ({ spotifySelectedPlaylist, youtubeSelectedPlaylist, youtubePlayl
 				<div className="playlistHeaders-spotify">
 					<h3 style={{ textTransform: "uppercase" }}>{spotifySelectedPlaylist.name}</h3>
 				</div>
-				<div className="tracks-content">
-					<ul>
-						{spotifyPlaylistTracks.map((playlistTrack) => {
-							const track = playlistTrack.track;
-							return <SpotifySong key={track.id} spotifyChooseTrack={spotifyChooseTrack} track={track} />;
-						})}
-					</ul>
-				</div>
+				{spotifyPlaylistTracks.map((playlistTrack) => {
+					const track = playlistTrack.track;
+					return <SpotifySong key={track.id} spotifyChooseTrack={spotifyChooseTrack} track={track} />;
+				})}
 			</div>
 		);
 	} else {
@@ -50,25 +43,17 @@ const Tracks = ({ spotifySelectedPlaylist, youtubeSelectedPlaylist, youtubePlayl
 				<div className="playlistHeaders-spotify">
 					<h3 style={{ textTransform: "uppercase" }}>{spotifySelectedPlaylist.name}</h3>
 				</div>
-				<div className="tracks-content">
-					<ul>
-						{spotifyPlaylistTracks.map((playlistTrack) => {
-							const track = playlistTrack.track;
-							return <SpotifySong spotifyChooseTrack={spotifyChooseTrack} track={track} />;
-						})}
-					</ul>
-				</div>
+				{spotifyPlaylistTracks.map((playlistTrack) => {
+					const track = playlistTrack.track;
+					return <SpotifySong spotifyChooseTrack={spotifyChooseTrack} track={track} />;
+				})}
 
 				<div className="playlistHeaders-youtube">
 					<h3 style={{ textTransform: "uppercase" }}>{youtubeSelectedPlaylist.playlistTitle}</h3>
 				</div>
-				<div className="tracks-content">
-					<ul>
-						{youtubePlaylistTracks.map((youtubePlaylistTrack) => {
-							return <YoutubeSong youtubeChooseTrack={youtubeChooseTrack} track={youtubePlaylistTrack} />;
-						})}
-					</ul>
-				</div>
+				{youtubePlaylistTracks.map((youtubePlaylistTrack) => (
+					<YoutubeSong youtubeChooseTrack={youtubeChooseTrack} track={youtubePlaylistTrack} />
+				))}
 			</div>
 		);
 	}
