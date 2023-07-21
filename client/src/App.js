@@ -42,6 +42,9 @@ export default function App() {
 		if (new URLSearchParams(window.location.search).get("code") === null) {
 			window.location.href = AUTH_URL;
 		}
+		if (new URLSearchParams(window.location.search).get("code") !== null){
+			setCode(new URLSearchParams(window.location.search).get("code"));
+		}
 	}, []);
 	useEffect(() => {
 		if (code !== null) {
@@ -161,7 +164,40 @@ export default function App() {
 	const [youtubeIsPlaying, setYoutubeIsPlaying] = useState(false);
 	const [youtubePlaylistTracks, setYoutubePlaylistTracks] = useState([]);
 	const [youtubeSelectedPlaylist, setYouTubeSelectedPlaylist] = useState(null);
+	const [youtubePlaylists, setYoutubePlaylists] = useState([]);
+	
+	// const fetchYoutubePlaylists = () => {
+		useEffect(() => {
+			
+			const apiKey = "AIzaSyCr8ZkvKo6zU5EmLhoYKdRy2FNhoVKTc8s";
+			const channelId = "UCIFkCqVZxZaH6Ng5OwCEDcQ";
+			const apiUrl = `https://www.googleapis.com/youtube/v3/playlists?part=snippet&channelId=${channelId}&key=${apiKey}`;
+			axios
+			.get(apiUrl)
+			.then((response) => {
+				console.log(response.data.items);
+				setYoutubePlaylists(response.data.items);
+			})
+			.catch((error) => {
+				console.error("Error fetching playlists:", error);
+			});
+		}, []);
+	//}
 
+	const fetchPlaylistVideos = (playlistId) => {
+		const apiKey = "AIzaSyCr8ZkvKo6zU5EmLhoYKdRy2FNhoVKTc8s";
+		const videosUrl = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=5&playlistId=${playlistId}&key=${apiKey}`;
+		axios.get(videosUrl)
+		.then((response) => {
+			console.log(response.data.items);
+			setYoutubePlaylistTracks(response.data.items);
+			// setYoutubePlaylists(response.data.items);
+		})
+		.catch((error) => {
+			console.error("Error fetching playlists:", error);
+		});
+	 };
+	
 	const fetchYoutubePlaylistTracks = async (playlistId) => {
 		setYoutubePlaylistTracks(youtubePlaylists[playlistId].songs);
 	};
@@ -206,27 +242,27 @@ export default function App() {
 		setYoutubeCurrentIndex(0);
 	};
 
-	const youtubePlaylists = [
-		{
-			playlistTitle: "Brett Emmons",
-			id: 0,
-			songs: [
-				{ name: "Bull and the Matador", artist: "Brett Emmons", url: "ZWVGr7cQZ_Y", songId: 0 },
-				{ name: "Shambles", artist: "Brett Emmons", url: "Ti4blSWS6bY", songId: 1 },
-				{ name: "Heavy", artist: "Brett Emmons", url: "8puqbXK3k-w", songId: 2 },
-			],
-		},
-		{
-			playlistTitle: "J.Cole",
-			id: 1,
-			songs: [
-				{ name: "i'm a Fool", artist: "J.cole", url: "mgRzTTMLfEs", songId: 0 },
-				{ name: "Can I Holla At you", artist: "J.cole", url: "v9ejF5AumDk", songId: 1 },
-				{ name: "It Won't Be Long", artist: "J.cole", url: "jNBXU26tRDY", songId: 2 },
-			],
-		},
-		// { name: "Live Songs", songs: ["ZWVGr7cQZ_Y", "Ti4blSWS6bY", "8puqbXK3k-w"] },
-	];
+	// const youtubePlaylists = [
+	// 	{
+	// 		playlistTitle: "Brett Emmons",
+	// 		id: 0,
+	// 		songs: [
+	// 			{ name: "Bull and the Matador", artist: "Brett Emmons", url: "ZWVGr7cQZ_Y", songId: 0 },
+	// 			{ name: "Shambles", artist: "Brett Emmons", url: "Ti4blSWS6bY", songId: 1 },
+	// 			{ name: "Heavy", artist: "Brett Emmons", url: "8puqbXK3k-w", songId: 2 },
+	// 		],
+	// 	},
+	// 	{
+	// 		playlistTitle: "J.Cole",
+	// 		id: 1,
+	// 		songs: [
+	// 			{ name: "i'm a Fool", artist: "J.cole", url: "mgRzTTMLfEs", songId: 0 },
+	// 			{ name: "Can I Holla At you", artist: "J.cole", url: "v9ejF5AumDk", songId: 1 },
+	// 			{ name: "It Won't Be Long", artist: "J.cole", url: "jNBXU26tRDY", songId: 2 },
+	// 		],
+	// 	},
+	// 	// { name: "Live Songs", songs: ["ZWVGr7cQZ_Y", "Ti4blSWS6bY", "8puqbXK3k-w"] },
+	// ];
 
 	const spotifyTrackURIs = spotifyPlaylistTracks.map((playlistTrack) => playlistTrack.track.uri);
 	const playlistAlbumCovers = spotifyPlaylistTracks.map((playlistTrack) => playlistTrack.track.album.images[0].url);
@@ -242,20 +278,20 @@ export default function App() {
 				setSpotifySelectedPlaylist={setSpotifySelectedPlaylist}
 			/>
 			<MediaPanel 
-				accessToken={accessToken} 
-				trackUri={currentTrack?.uri} 
+				accessToken={accessToken}
+				trackUri={currentTrack?.uri}
 				playlistUri={spotifyTrackURIs} 
 				playlistAlbumCovers={playlistAlbumCovers} 
-				isSpotifySong={isSpotifySong} 
-				youtubeSelectedPlaylist={youtubeSelectedPlaylist} 
+				isSpotifySong={isSpotifySong}
+				youtubeSelectedPlaylist={youtubeSelectedPlaylist}
 				youtubePlaylist={youtubePlaylists[youtubeSelectedPlaylist?.id]} 
-				handlePrevious={handlePrevious} handleNext={handleNext} 
-				handlePlay={handlePlay} 
-				handlePause={handlePause} 
-				handlePlaylistEnd={handlePlaylistEnd} 
-				youtubeCurrentIndex={youtubeCurrentIndex} 
-				youtubeIsPlaying={youtubeIsPlaying} 
-				handlePlayerReady={handlePlayerReady} 
+				handlePrevious={handlePrevious} handleNext={handleNext}
+				handlePlay={handlePlay}
+				handlePause={handlePause}
+				handlePlaylistEnd={handlePlaylistEnd}
+				youtubeCurrentIndex={youtubeCurrentIndex}
+				youtubeIsPlaying={youtubeIsPlaying}
+				handlePlayerReady={handlePlayerReady}
 			/>
 			<Tracks 
 				spotifySelectedPlaylist={spotifySelectedPlaylist} 
@@ -266,7 +302,7 @@ export default function App() {
 				youtubeChooseTrack={youtubeChooseTrack} 
 				setIsSpotifySong={setIsSpotifySong} 
 			/>
-			<YouTubeFetchPlaylists />
+			{/* <YouTubeFetchPlaylists /> */}
 		</div>
 	);
 }

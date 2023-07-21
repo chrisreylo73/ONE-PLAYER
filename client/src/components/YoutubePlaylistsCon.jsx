@@ -8,13 +8,13 @@ const YoutubePlaylistsCon = ({ youtubePlaylists, youtubeHandlePlaylistSelect }) 
 		<div className="Youtube-Playlists-con">
 			<div className="Youtube-Playlists-header">
 				<h3>YOUTUBE PLAYLISTS</h3>
-				<button>Login</button>
+				{/* <button>Login</button> */}
 			</div>
 			<div className="Youtube-Playlists">
 				{youtubePlaylists.map((youtubePlaylist) => (
 					<YoutubePlaylist
 						key={youtubePlaylist.id}
-						title={youtubePlaylist.playlistTitle}
+						title={youtubePlaylist.snippet.title}
 						isSelected={youtubePlaylist.id === (selectedPlaylist && selectedPlaylist.id)}
 						handleClick={() => {
 							youtubeHandlePlaylistSelect(youtubePlaylist);

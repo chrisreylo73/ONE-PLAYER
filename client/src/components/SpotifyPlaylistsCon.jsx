@@ -17,7 +17,7 @@ const SpotifyPlaylistsCon = ({ spotifyPlaylists, spotifyHandlePlaylistSelect, se
 		<div className={`Spotify-Playlists-con ${isHovered ? "hovered" : ""}`} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
 			<div className="Spotify-Playlists-header">
 				<h3>SPOTIFY PLAYLISTS</h3>
-				<Login setCode={setCode} />
+				{/* <Login setCode={setCode} /> */}
 			</div>
 			<div className="Spotify-Playlists">
 				{spotifyPlaylists.map((spotifyPlaylist) => (
