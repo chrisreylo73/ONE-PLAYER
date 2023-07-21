@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const SpotifySong = ({ spotifyChooseTrack, track }) => {
+const SpotifySong = ({ spotifyChooseTrack, track, setIsSpotifySong }) => {
 	const [isHovered, setIsHovered] = useState(false);
 	const minutes = Math.floor(track.duration_ms / 60000);
 	const seconds = Math.floor((track.duration_ms % 60000) / 1000);
@@ -15,6 +15,7 @@ const SpotifySong = ({ spotifyChooseTrack, track }) => {
 	};
 
 	function handlePlay() {
+		setIsSpotifySong(true);
 		spotifyChooseTrack(track);
 	}
 	return (

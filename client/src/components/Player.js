@@ -39,9 +39,9 @@ export default function Player({ accessToken, trackUri, playlistUri, currentSong
 				styles={{
 					loaderSize: 90,
 					height: 60,
-					activeColor: "#202528",
+					activeColor: "#ffffff",
 					bgColor: "#202528",
-					color: "#fff",
+					color: "#ffffff",
 					loaderColor: "#0011ff",
 					sliderColor: "#0011ff",
 					trackArtistColor: "#ccc",
@@ -53,7 +53,7 @@ export default function Player({ accessToken, trackUri, playlistUri, currentSong
 					sliderHandleBorderRadius: 10,
 				}}
 				token={accessToken}
-				// showSaveIcon
+				showSaveIcon
 				callback={(state) => {
 					if (!state.isPlaying) setPlay(false);
 					const currentSongIndex = playlistUri.findIndex((uri) => uri === state.track?.uri);

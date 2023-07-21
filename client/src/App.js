@@ -6,6 +6,7 @@ import ControlPanel from "./components/ControlPanel";
 import MediaPanel from "./components/MediaPanel";
 import axios from "axios";
 import "./App.css";
+import YouTubeFetchPlaylists from "./components/YouTubeFetchPlaylists";
 
 const API_BASE_URL = "https://api.spotify.com/v1";
 
@@ -20,7 +21,7 @@ export default function App() {
 	const [code, setCode] = useState(null);
 	// const accessToken = useAuth(code);
 	const [currentTrack, setCurrentTrack] = useState();
-	const [platform, setPlatform] = useState(null);
+	const [isSpotifySong, setIsSpotifySong] = useState(false);
 	const [spotifyPlaylists, setSpotifyPlaylists] = useState([]);
 	const [spotifySelectedPlaylist, setSpotifySelectedPlaylist] = useState(null);
 	const [spotifyPlaylistTracks, setSpotifyPlaylistTracks] = useState([]);
@@ -43,7 +44,6 @@ export default function App() {
 		}
 	}, []);
 	useEffect(() => {
-		console.log("hey");
 		if (code !== null) {
 			axios
 				.post("http://localhost:3001/login", {
@@ -230,21 +230,43 @@ export default function App() {
 
 	const spotifyTrackURIs = spotifyPlaylistTracks.map((playlistTrack) => playlistTrack.track.uri);
 	const playlistAlbumCovers = spotifyPlaylistTracks.map((playlistTrack) => playlistTrack.track.album.images[0].url);
-	// console.log(playlistAlbumCovers);
-	// console.log(currentTrack);
 
 	return (
 		<div className="dashboard">
-			<ControlPanel setCode={setCode} spotifyPlaylists={spotifyPlaylists} youtubePlaylists={youtubePlaylists} spotifyHandlePlaylistSelect={spotifyHandlePlaylistSelect} youtubeHandlePlaylistSelect={youtubeHandlePlaylistSelect} setSpotifySelectedPlaylist={setSpotifySelectedPlaylist} />
-			<MediaPanel accessToken={accessToken} trackUri={currentTrack?.uri} playlistUri={spotifyTrackURIs} playlistAlbumCovers={playlistAlbumCovers} />
-			<Tracks spotifySelectedPlaylist={spotifySelectedPlaylist} spotifyPlaylistTracks={spotifyPlaylistTracks} spotifyChooseTrack={spotifyChooseTrack} youtubeSelectedPlaylist={youtubeSelectedPlaylist} youtubePlaylistTracks={youtubePlaylistTracks} youtubeChooseTrack={youtubeChooseTrack} />
-
-			{/* {youtubeSelectedPlaylist && <YoutubePlayer youtubePlaylist={youtubePlaylists[youtubeSelectedPlaylist.id]} handlePrevious={handlePrevious} handleNext={handleNext} handlePlay={handlePlay} handlePause={handlePause} handlePlaylistEnd={handlePlaylistEnd} youtubeCurrentIndex={youtubeCurrentIndex} youtubeIsPlaying={youtubeIsPlaying} handlePlayerReady={handlePlayerReady} />} */}
-
-			{/* <div className="Spotify-Player"> */}
-			{/* <SpotifyPlayer accessToken={accessToken} currentTrack={currentTrack}></SpotifyPlayer> */}
-
-			{/* </div> */}
+			<ControlPanel
+				setCode={setCode}
+				spotifyPlaylists={spotifyPlaylists}
+				youtubePlaylists={youtubePlaylists}
+				spotifyHandlePlaylistSelect={spotifyHandlePlaylistSelect}
+				youtubeHandlePlaylistSelect={youtubeHandlePlaylistSelect}
+				setSpotifySelectedPlaylist={setSpotifySelectedPlaylist}
+			/>
+			<MediaPanel 
+				accessToken={accessToken} 
+				trackUri={currentTrack?.uri} 
+				playlistUri={spotifyTrackURIs} 
+				playlistAlbumCovers={playlistAlbumCovers} 
+				isSpotifySong={isSpotifySong} 
+				youtubeSelectedPlaylist={youtubeSelectedPlaylist} 
+				youtubePlaylist={youtubePlaylists[youtubeSelectedPlaylist?.id]} 
+				handlePrevious={handlePrevious} handleNext={handleNext} 
+				handlePlay={handlePlay} 
+				handlePause={handlePause} 
+				handlePlaylistEnd={handlePlaylistEnd} 
+				youtubeCurrentIndex={youtubeCurrentIndex} 
+				youtubeIsPlaying={youtubeIsPlaying} 
+				handlePlayerReady={handlePlayerReady} 
+			/>
+			<Tracks 
+				spotifySelectedPlaylist={spotifySelectedPlaylist} 
+				spotifyPlaylistTracks={spotifyPlaylistTracks} 
+				spotifyChooseTrack={spotifyChooseTrack} 
+				youtubeSelectedPlaylist={youtubeSelectedPlaylist} 
+				youtubePlaylistTracks={youtubePlaylistTracks} 
+				youtubeChooseTrack={youtubeChooseTrack} 
+				setIsSpotifySong={setIsSpotifySong} 
+			/>
+			<YouTubeFetchPlaylists />
 		</div>
 	);
 }

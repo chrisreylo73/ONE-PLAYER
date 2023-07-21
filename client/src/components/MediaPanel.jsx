@@ -1,8 +1,8 @@
 import React from "react";
 import Player from "./Player";
 import { useState, useEffect } from "react";
-
-const MediaPanel = ({ accessToken, trackUri, playlistUri, playlistAlbumCovers }) => {
+import YoutubePlayer from "./YoutubePlayer";
+const MediaPanel = ({ accessToken, trackUri, playlistUri, playlistAlbumCovers, isSpotifySong, youtubeSelectedPlaylist, youtubePlaylist, handlePrevious, handleNext, handlePlay, handlePause, handlePlaylistEnd, youtubeCurrentIndex, youtubeIsPlaying, handlePlayerReady }) => {
 	const [currentSongIndex, setCurrentSongIndex] = useState(0);
 	const [currentAlbumCover, setCurrentAlbumCover] = useState();
 
@@ -15,17 +15,23 @@ const MediaPanel = ({ accessToken, trackUri, playlistUri, playlistAlbumCovers })
 
 	return (
 		<div className="mediaPanel">
-			{currentAlbumCover ? (
-				<img src={currentAlbumCover} alt="Album Cover" className="albumCover" />
-			) : (
+			{isSpotifySong ? (
 				<>
-					<img src="https://i.scdn.co/image/ab67616d0000b273741a77d739f166d77fbfb53e" alt="Album Cover" className="albumCover"></img>
-					{/* <div className="whiteCircle"></div> */}
+					{currentAlbumCover ? (
+						<img src={currentAlbumCover} alt="Album Cover" className="albumCover" />
+					) : (
+						<>
+							<img src="https://i.scdn.co/image/ab67616d0000b273741a77d739f166d77fbfb53e" alt="Album Cover" className="albumCover" />
+							{/* <div className="whiteCircle"></div> */}
+						</>
+					)}
+					<div className="Spotify-Player">
+						<Player accessToken={accessToken} trackUri={trackUri} playlistUri={playlistUri} currentSongIndex={currentSongIndex} setCurrentSongIndex={setCurrentSongIndex} />
+					</div>
 				</>
+			) : (
+				youtubeSelectedPlaylist && <YoutubePlayer youtubePlaylist={youtubePlaylist} handlePrevious={handlePrevious} handleNext={handleNext} handlePlay={handlePlay} handlePause={handlePause} handlePlaylistEnd={handlePlaylistEnd} youtubeCurrentIndex={youtubeCurrentIndex} youtubeIsPlaying={youtubeIsPlaying} handlePlayerReady={handlePlayerReady} />
 			)}
-			<div className="Spotify-Player">
-				<Player accessToken={accessToken} trackUri={trackUri} playlistUri={playlistUri} currentSongIndex={currentSongIndex} setCurrentSongIndex={setCurrentSongIndex} />
-			</div>
 		</div>
 	);
 };

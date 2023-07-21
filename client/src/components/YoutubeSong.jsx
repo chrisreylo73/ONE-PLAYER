@@ -1,10 +1,11 @@
 import React from "react";
 
-const YoutubeSong = ({ youtubeChooseTrack, track }) => {
+const YoutubeSong = ({ youtubeChooseTrack, track, setIsSpotifySong }) => {
 	const minutes = Math.floor(track.duration_ms / 60000);
 	const seconds = Math.floor((track.duration_ms % 60000) / 1000);
 	const formattedLength = track.duration_ms ? `${minutes}:${seconds.toString().padStart(2, "0")}` : "length?";
 	function handlePlay() {
+		setIsSpotifySong(false);
 		youtubeChooseTrack(track.songId); // chooseTrack(track);
 	}
 	//onClick={handlePlay}

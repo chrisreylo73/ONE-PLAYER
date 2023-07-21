@@ -16,12 +16,14 @@ const YoutubePlayer = ({ youtubePlaylist, handlePlayerReady, handlePlay, handleP
 	};
 	return (
 		<div className="Youtube-Player">
-			<YouTube videoId={songs[youtubeCurrentIndex]} opts={opts} onReady={handlePlayerReady} onEnd={handlePlaylistEnd} containerClassName="youtube-container" className="youtube-player" />
-			<div className="player-controls">
-				{!youtubeIsPlaying && <button onClick={handlePlay}>Play</button>}
-				{youtubeIsPlaying && <button onClick={handlePause}>Pause</button>}
-				<button onClick={() => handlePrevious(songs)}>Previous</button>
-				<button onClick={() => handleNext(songs)}>Next</button>
+			<div className="youtubeVideo">
+				<YouTube videoId={songs[youtubeCurrentIndex]} opts={opts} onReady={handlePlayerReady} onEnd={handlePlaylistEnd} containerClassName="youtube-container" className="youtube-player" />
+			</div>
+			<div className="youtubePlayback">
+				<button onClick={() => handlePrevious(songs)}>{"<<"}</button>
+				{!youtubeIsPlaying && <button onClick={handlePlay}>PLAY</button>}
+				{youtubeIsPlaying && <button onClick={handlePause}>PAUSE</button>}
+				<button onClick={() => handleNext(songs)}>{">>"}</button>
 			</div>
 		</div>
 	);
