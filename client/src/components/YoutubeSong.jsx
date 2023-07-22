@@ -1,17 +1,15 @@
-import React from "react";
-
 const YoutubeSong = ({ youtubeChooseTrack, track, setIsSpotifySong }) => {
-	const minutes = Math.floor(track.duration_ms / 60000);
-	const seconds = Math.floor((track.duration_ms % 60000) / 1000);
-	const formattedLength = track.duration_ms ? `${minutes}:${seconds.toString().padStart(2, "0")}` : "length?";
+	// const minutes = Math.floor(track.duration_ms / 60000);
+	// const seconds = Math.floor((track.duration_ms % 60000) / 1000);
+	// const formattedLength = track.duration_ms ? `${minutes}:${seconds.toString().padStart(2, "0")}` : "length?";
+
 	function handlePlay() {
 		setIsSpotifySong(false);
-		youtubeChooseTrack(track.snippet.resourceId.videoId); // chooseTrack(track);
+		youtubeChooseTrack(track.snippet.resourceId.videoId);
 	}
-	//onClick={handlePlay}
+
 	return (
 		<div className="song" onClick={handlePlay}>
-			{/* <img className="album-cover" src={track.album.images[0].url} alt="Album Cover" /> */}
 			<img className="album-cover" src={track.snippet.thumbnails.default?.url} alt="Album Cover" />
 			<div className="songInfo">
 				<p id="title">{track.snippet.title}</p>

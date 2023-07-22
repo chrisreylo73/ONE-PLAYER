@@ -149,9 +149,9 @@ export default function App() {
 	const youtubeVideoIds = youtubePlaylistTracks.map((playlistTrack) => playlistTrack.snippet.resourceId.videoId);
 	
 	useEffect(() => {
-		const apiKey = "AIzaSyCr8ZkvKo6zU5EmLhoYKdRy2FNhoVKTc8s";
-		const channelId = "UCIFkCqVZxZaH6Ng5OwCEDcQ";
-		const apiUrl = `https://www.googleapis.com/youtube/v3/playlists?part=snippet&channelId=${channelId}&key=${apiKey}`;
+		// const apiKey = "AIzaSyCr8ZkvKo6zU5EmLhoYKdRy2FNhoVKTc8s";
+		// const channelId = "UCIFkCqVZxZaH6Ng5OwCEDcQ";
+		const apiUrl = `https://www.googleapis.com/youtube/v3/playlists?part=snippet&channelId=${process.env.REACT_APP_YOUTUBE_CHANNEL_ID}&key=${process.env.REACT_APP_YOUTUBE_API_KEY}`;
 		axios
 		.get(apiUrl)
 		.then((response) => {
@@ -164,8 +164,8 @@ export default function App() {
 	}, []);
 
 	const fetchPlaylistVideos = (playlistId) => {
-		const apiKey = "AIzaSyCr8ZkvKo6zU5EmLhoYKdRy2FNhoVKTc8s";
-		const videosUrl = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=5&playlistId=${playlistId}&key=${apiKey}`;
+		// const apiKey = "AIzaSyCr8ZkvKo6zU5EmLhoYKdRy2FNhoVKTc8s";
+		const videosUrl = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=5&playlistId=${playlistId}&key=${process.env.REACT_APP_YOUTUBE_API_KEY}`;
 		axios.get(videosUrl)
 		.then((response) => {
 			// console.log(response.data.items);
