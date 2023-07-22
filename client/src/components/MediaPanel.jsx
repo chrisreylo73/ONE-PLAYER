@@ -2,7 +2,7 @@ import React from "react";
 import Player from "./Player";
 import { useState, useEffect } from "react";
 import YoutubePlayer from "./YoutubePlayer";
-const MediaPanel = ({ accessToken, trackUri, playlistUri, playlistAlbumCovers, isSpotifySong, youtubeSelectedPlaylist, youtubePlaylist, handlePrevious, handleNext, handlePlay, handlePause, handlePlaylistEnd, youtubeCurrentIndex, youtubeIsPlaying, handlePlayerReady }) => {
+const MediaPanel = ({ accessToken, trackUri, playlistUri, playlistAlbumCovers, isSpotifySong, youtubeSelectedPlaylist, handlePrevious, handleNext, handlePlay, handlePause, handlePlaylistEnd, youtubeCurrentIndex, youtubeIsPlaying, handlePlayerReady, youtubeVideoIds }) => {
 	const [currentSongIndex, setCurrentSongIndex] = useState(0);
 	const [currentAlbumCover, setCurrentAlbumCover] = useState();
 
@@ -12,7 +12,6 @@ const MediaPanel = ({ accessToken, trackUri, playlistUri, playlistAlbumCovers, i
 	}, [currentSongIndex]);
 
 	if (!accessToken) return <div className="mediaPanel"></div>;
-
 	return (
 		<div className="mediaPanel">
 			{isSpotifySong ? (
@@ -30,7 +29,8 @@ const MediaPanel = ({ accessToken, trackUri, playlistUri, playlistAlbumCovers, i
 					</div>
 				</>
 			) : (
-				youtubeSelectedPlaylist && <YoutubePlayer youtubePlaylist={youtubePlaylist} handlePrevious={handlePrevious} handleNext={handleNext} handlePlay={handlePlay} handlePause={handlePause} handlePlaylistEnd={handlePlaylistEnd} youtubeCurrentIndex={youtubeCurrentIndex} youtubeIsPlaying={youtubeIsPlaying} handlePlayerReady={handlePlayerReady} />
+				// null
+				youtubeSelectedPlaylist && <YoutubePlayer youtubeVideoIds={youtubeVideoIds} youtubeSelectedPlaylist={youtubeSelectedPlaylist} handlePrevious={handlePrevious} handleNext={handleNext} handlePlay={handlePlay} handlePause={handlePause} handlePlaylistEnd={handlePlaylistEnd} youtubeCurrentIndex={youtubeCurrentIndex} youtubeIsPlaying={youtubeIsPlaying} handlePlayerReady={handlePlayerReady} />
 			)}
 		</div>
 	);

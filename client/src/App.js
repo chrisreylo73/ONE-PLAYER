@@ -46,6 +46,7 @@ export default function App() {
 			setCode(new URLSearchParams(window.location.search).get("code"));
 		}
 	}, []);
+
 	useEffect(() => {
 		if (code !== null) {
 			axios
@@ -198,13 +199,13 @@ export default function App() {
 		});
 	 };
 	
-	const fetchYoutubePlaylistTracks = async (playlistId) => {
-		setYoutubePlaylistTracks(youtubePlaylists[playlistId].songs);
-	};
+	// const fetchYoutubePlaylistTracks = async (playlistId) => {
+	// 	setYoutubePlaylistTracks(youtubePlaylists[playlistId].songs);
+	// };
 	const youtubeHandlePlaylistSelect = async (playlist) => {
 		setYouTubeSelectedPlaylist(playlist);
 		console.log("hello");
-		await fetchYoutubePlaylistTracks(playlist.id);
+		await fetchPlaylistVideos(playlist.id);
 	};
 	const handlePlayerReady = (event) => {
 		setPlayer(event.target);
@@ -213,8 +214,9 @@ export default function App() {
 	};
 	const youtubeChooseTrack = (songId) => {
 		console.log(songId);
+		const currentIndex = youtubeVideoIds.findIndex((id) => id === songId);
 		setYoutubeIsPlaying(true);
-		setYoutubeCurrentIndex(songId);
+		setYoutubeCurrentIndex(currentIndex);
 	};
 
 	const handlePlay = () => {
@@ -267,22 +269,26 @@ export default function App() {
 	const spotifyTrackURIs = spotifyPlaylistTracks.map((playlistTrack) => playlistTrack.track.uri);
 	const playlistAlbumCovers = spotifyPlaylistTracks.map((playlistTrack) => playlistTrack.track.album.images[0].url);
 
+	const youtubeVideoIds = youtubePlaylistTracks.map((playlistTrack) => playlistTrack.snippet.resourceId.videoId);
+
+
 	return (
 		<div className="dashboard">
 			<ControlPanel
-				setCode={setCode}
 				spotifyPlaylists={spotifyPlaylists}
-				youtubePlaylists={youtubePlaylists}
-				spotifyHandlePlaylistSelect={spotifyHandlePlaylistSelect}
-				youtubeHandlePlaylistSelect={youtubeHandlePlaylistSelect}
 				setSpotifySelectedPlaylist={setSpotifySelectedPlaylist}
+				spotifyHandlePlaylistSelect={spotifyHandlePlaylistSelect}
+				
+				youtubePlaylists={youtubePlaylists}
+				youtubeHandlePlaylistSelect={youtubeHandlePlaylistSelect}
+				setYouTubeSelectedPlaylist={setYouTubeSelectedPlaylist}
 			/>
 			<MediaPanel 
 				accessToken={accessToken}
 				trackUri={currentTrack?.uri}
 				playlistUri={spotifyTrackURIs} 
 				playlistAlbumCovers={playlistAlbumCovers} 
-				isSpotifySong={isSpotifySong}
+				
 				youtubeSelectedPlaylist={youtubeSelectedPlaylist}
 				youtubePlaylist={youtubePlaylists[youtubeSelectedPlaylist?.id]} 
 				handlePrevious={handlePrevious} handleNext={handleNext}
@@ -292,14 +298,18 @@ export default function App() {
 				youtubeCurrentIndex={youtubeCurrentIndex}
 				youtubeIsPlaying={youtubeIsPlaying}
 				handlePlayerReady={handlePlayerReady}
+				youtubeVideoIds={youtubeVideoIds}
+				isSpotifySong={isSpotifySong}
 			/>
 			<Tracks 
 				spotifySelectedPlaylist={spotifySelectedPlaylist} 
 				spotifyPlaylistTracks={spotifyPlaylistTracks} 
 				spotifyChooseTrack={spotifyChooseTrack} 
+				
 				youtubeSelectedPlaylist={youtubeSelectedPlaylist} 
 				youtubePlaylistTracks={youtubePlaylistTracks} 
 				youtubeChooseTrack={youtubeChooseTrack} 
+				
 				setIsSpotifySong={setIsSpotifySong} 
 			/>
 			{/* <YouTubeFetchPlaylists /> */}

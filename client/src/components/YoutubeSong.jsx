@@ -6,18 +6,18 @@ const YoutubeSong = ({ youtubeChooseTrack, track, setIsSpotifySong }) => {
 	const formattedLength = track.duration_ms ? `${minutes}:${seconds.toString().padStart(2, "0")}` : "length?";
 	function handlePlay() {
 		setIsSpotifySong(false);
-		youtubeChooseTrack(track.songId); // chooseTrack(track);
+		youtubeChooseTrack(track.snippet.resourceId.videoId); // chooseTrack(track);
 	}
 	//onClick={handlePlay}
 	return (
 		<div className="song" onClick={handlePlay}>
 			{/* <img className="album-cover" src={track.album.images[0].url} alt="Album Cover" /> */}
+			<img className="album-cover" src={track.snippet.thumbnails.default?.url} alt="Album Cover" />
 			<div className="songInfo">
-				<p id="title">{track.name}</p>
-				<p id="artist">{track.artist}</p>
-				{/* <p id="artist">{track.artists[0].name}</p> */}
+				<p id="title">{track.snippet.title}</p>
+				<p id="artist">{""}</p>
 			</div>
-			{/* <p>{formattedLength}</p> */}
+			<p>{"0:00"}</p>
 		</div>
 	);
 };

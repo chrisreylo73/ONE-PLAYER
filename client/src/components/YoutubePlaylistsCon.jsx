@@ -1,7 +1,7 @@
 import YoutubePlaylist from "./YoutubePlaylist";
 import { useState } from "react";
 
-const YoutubePlaylistsCon = ({ youtubePlaylists, youtubeHandlePlaylistSelect }) => {
+const YoutubePlaylistsCon = ({ youtubePlaylists, youtubeHandlePlaylistSelect, setYouTubeSelectedPlaylist }) => {
 	const [selectedPlaylist, setSelectedPlaylist] = useState(null);
 
 	return (
@@ -18,7 +18,7 @@ const YoutubePlaylistsCon = ({ youtubePlaylists, youtubeHandlePlaylistSelect }) 
 						isSelected={youtubePlaylist.id === (selectedPlaylist && selectedPlaylist.id)}
 						handleClick={() => {
 							youtubeHandlePlaylistSelect(youtubePlaylist);
-							setSelectedPlaylist(youtubePlaylist);
+							setYouTubeSelectedPlaylist(youtubePlaylist);
 						}}
 					/>
 				))}

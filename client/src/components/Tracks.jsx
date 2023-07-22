@@ -11,14 +11,15 @@ const Tracks = ({ spotifySelectedPlaylist, youtubeSelectedPlaylist, youtubePlayl
 	const handleMouseLeave = () => {
 		setIsHovered(false);
 	};
-
+	// console.log(youtubeSelectedPlaylist)
+	// console.log(youtubePlaylistTracks)
 	if (spotifySelectedPlaylist == null && youtubeSelectedPlaylist == null) {
 		return <div className="tracks"></div>;
 	} else if (spotifySelectedPlaylist == null) {
 		return (
 			<div className="tracks">
 				<div className="playlistHeaders-youtube">
-					<h3 style={{ textTransform: "uppercase" }}>{youtubeSelectedPlaylist.playlistTitle}</h3>
+					<h3 style={{ textTransform: "uppercase" }}>{youtubeSelectedPlaylist.snippet.title}</h3>
 				</div>
 				{youtubePlaylistTracks.map((youtubePlaylistTrack) => (
 					<YoutubeSong youtubeChooseTrack={youtubeChooseTrack} track={youtubePlaylistTrack} setIsSpotifySong={setIsSpotifySong} />
@@ -49,7 +50,7 @@ const Tracks = ({ spotifySelectedPlaylist, youtubeSelectedPlaylist, youtubePlayl
 				})}
 
 				<div className="playlistHeaders-youtube">
-					<h3 style={{ textTransform: "uppercase" }}>{youtubeSelectedPlaylist.playlistTitle}</h3>
+					<h3 style={{ textTransform: "uppercase" }}>{youtubeSelectedPlaylist.snippet.title}</h3>
 				</div>
 				{youtubePlaylistTracks.map((youtubePlaylistTrack) => (
 					<YoutubeSong youtubeChooseTrack={youtubeChooseTrack} track={youtubePlaylistTrack} setIsSpotifySong={setIsSpotifySong} />
