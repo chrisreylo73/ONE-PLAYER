@@ -1,6 +1,6 @@
 import SpotifyPlaylist from "./SpotifyPlaylist";
 import { useState } from "react";
-const SpotifyPlaylistsCon = ({ spotifyPlaylists, spotifyHandlePlaylistSelect, setSpotifySelectedPlaylist, setCode }) => {
+const SpotifyPlaylistsCon = ({ spotifyPlaylists, spotifyHandlePlaylistSelect}) => {
 	const [isHovered, setIsHovered] = useState(false);
 	const [selectedPlaylist, setSelectedPlaylist] = useState(null);
 

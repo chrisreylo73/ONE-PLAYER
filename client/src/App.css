@@ -91,14 +91,14 @@ body {
   display: flex;
   align-items: center;
   flex-direction: column;
-  max-height: 200px;
+  height: 190px;
   width:90%;
   background-color: #202528;
   border-radius: 10px;
-  transition: height 0.4s ease;
+  transition: height 0.3s ease;
 }
+
 .Spotify-Playlists-con {
-  /* margin-top: 10px; */
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -108,7 +108,8 @@ body {
   border-radius: 10px;
   transition: height 0.3s ease;
 }
-.Spotify-Playlists-con.hovered {
+
+.Spotify-Playlists-con.hovered, .Youtube-Playlists-con.hovered {
   height: 300px;
 }
 
