@@ -8,7 +8,6 @@ const YoutubePlaylistsCon = ({ youtubePlaylists, youtubeHandlePlaylistSelect, se
 		<div className="Youtube-Playlists-con">
 			<div className="Youtube-Playlists-header">
 				<h3>YOUTUBE PLAYLISTS</h3>
-				{/* <button>Login</button> */}
 			</div>
 			<div className="Youtube-Playlists">
 				{youtubePlaylists.map((youtubePlaylist) => (

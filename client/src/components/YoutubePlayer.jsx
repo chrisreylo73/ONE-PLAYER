@@ -1,11 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import YouTube from "react-youtube";
 import YoutubePlaylist from "./YoutubePlaylist";
-
 const YoutubePlayer = ({youtubeVideoIds, youtubeSelectedPlaylist, handlePlayerReady, handlePlay, handlePause, handleNext, handlePrevious, handlePlaylistEnd, youtubeCurrentIndex, youtubeIsPlaying }) => {
-	// if (youtubePlaylist !== null) {
-	// console.log(youtubeSelectedPlaylist);
-	// const songs = youtubeSelectedPlaylist.snippet.map((song) => song.url);
 	const opts = {
 		playerVars: {
 			autoplay: 1,
@@ -27,7 +23,5 @@ const YoutubePlayer = ({youtubeVideoIds, youtubeSelectedPlaylist, handlePlayerRe
 			</div>
 		</div>
 	);
-	// }
 };
-
 export default YoutubePlayer;

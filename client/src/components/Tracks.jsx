@@ -11,8 +11,7 @@ const Tracks = ({ spotifySelectedPlaylist, youtubeSelectedPlaylist, youtubePlayl
 	const handleMouseLeave = () => {
 		setIsHovered(false);
 	};
-	// console.log(youtubeSelectedPlaylist)
-	// console.log(youtubePlaylistTracks)
+
 	if (spotifySelectedPlaylist == null && youtubeSelectedPlaylist == null) {
 		return <div className="tracks"></div>;
 	} else if (spotifySelectedPlaylist == null) {
