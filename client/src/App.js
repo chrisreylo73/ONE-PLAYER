@@ -6,6 +6,7 @@ import ControlPanel from "./components/ControlPanel";
 import MediaPanel from "./components/MediaPanel";
 import axios from "axios";
 import "./App.css";
+// require("dotenv").config();
 
 const API_BASE_URL = "https://api.spotify.com/v1";
 
@@ -28,13 +29,10 @@ export default function App() {
 	const [refreshToken, setRefreshToken] = useState();
 	const [expiresIn, setExpiresIn] = useState();
 
-	const CLIENT_ID = "b96044a084a542c691fe9b0eca9684de";
-	const REDIRECT_URI = "http://localhost:3000";
-	const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
-	const RESPONSE_TYPE = "code";
-	const SCOPES = "streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state";
-	const AUTH_URL = `${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&response_type=${RESPONSE_TYPE}&redirect_uri=${REDIRECT_URI}&scope=${SCOPES}`;
-	
+	const spotifyTrackURIs = spotifyPlaylistTracks.map((playlistTrack) => playlistTrack.track.uri);
+	const playlistAlbumCovers = spotifyPlaylistTracks.map((playlistTrack) => playlistTrack.track.album.images[0].url);
+
+	const AUTH_URL = `${process.env.REACT_APP_AUTH_ENDPOINT}?client_id=${process.env.REACT_APP_CLIENT_ID}&response_type=${process.env.REACT_APP_RESPONSE_TYPE}&redirect_uri=${process.env.REACT_APP_REDIRECT_URI}&scope=${process.env.REACT_APP_SCOPES}`;
 	
 	useEffect(() => {
 		if (new URLSearchParams(window.location.search).get("code") === null) {
@@ -112,7 +110,7 @@ export default function App() {
 		}
 	};
 
-	
+
 	const fetchPlaylistTracks = async (playlistId) => {
 		try {
 			const response = await fetch(`${API_BASE_URL}/playlists/${playlistId}/tracks`, {
@@ -142,27 +140,28 @@ export default function App() {
 	/**-----------------------------------------------------------------------------------------------------------------------
 	 *                                                    YOUTUBE
 	 *-----------------------------------------------------------------------------------------------------------------------**/
-	const [player, setPlayer] = useState(null);
+	const [youtubePlayer, setYoutubePlayer] = useState(null);
 	const [youtubeCurrentIndex, setYoutubeCurrentIndex] = useState(0);
 	const [youtubeIsPlaying, setYoutubeIsPlaying] = useState(true);
 	const [youtubePlaylistTracks, setYoutubePlaylistTracks] = useState([]);
 	const [youtubeSelectedPlaylist, setYouTubeSelectedPlaylist] = useState(null);
 	const [youtubePlaylists, setYoutubePlaylists] = useState([]);
+	const youtubeVideoIds = youtubePlaylistTracks.map((playlistTrack) => playlistTrack.snippet.resourceId.videoId);
 	
-		useEffect(() => {
-			const apiKey = "AIzaSyCr8ZkvKo6zU5EmLhoYKdRy2FNhoVKTc8s";
-			const channelId = "UCIFkCqVZxZaH6Ng5OwCEDcQ";
-			const apiUrl = `https://www.googleapis.com/youtube/v3/playlists?part=snippet&channelId=${channelId}&key=${apiKey}`;
-			axios
-			.get(apiUrl)
-			.then((response) => {
-				// console.log(response.data.items);
-				setYoutubePlaylists(response.data.items);
-			})
-			.catch((error) => {
-				console.error("Error fetching playlists:", error);
-			});
-		}, []);
+	useEffect(() => {
+		const apiKey = "AIzaSyCr8ZkvKo6zU5EmLhoYKdRy2FNhoVKTc8s";
+		const channelId = "UCIFkCqVZxZaH6Ng5OwCEDcQ";
+		const apiUrl = `https://www.googleapis.com/youtube/v3/playlists?part=snippet&channelId=${channelId}&key=${apiKey}`;
+		axios
+		.get(apiUrl)
+		.then((response) => {
+			// console.log(response.data.items);
+			setYoutubePlaylists(response.data.items);
+		})
+		.catch((error) => {
+			console.error("Error fetching playlists:", error);
+		});
+	}, []);
 
 	const fetchPlaylistVideos = (playlistId) => {
 		const apiKey = "AIzaSyCr8ZkvKo6zU5EmLhoYKdRy2FNhoVKTc8s";
@@ -181,10 +180,12 @@ export default function App() {
 		console.log("hello");
 		await fetchPlaylistVideos(playlist.id);
 	};
+	
 	const handlePlayerReady = (event) => {
-		setPlayer(event.target);
+		setYoutubePlayer(event.target);
 		console.log("Player Ready:", event.target);
 	};
+
 	const youtubeChooseTrack = (songId) => {
 		console.log(songId);
 		const currentIndex = youtubeVideoIds.findIndex((id) => id === songId);
@@ -194,12 +195,12 @@ export default function App() {
 
 	const handlePlay = () => {
 		setYoutubeIsPlaying(true);
-		player.playVideo();
+		youtubePlayer.playVideo();
 	};
 
 	const handlePause = () => {
 		setYoutubeIsPlaying(false);
-		player.pauseVideo();
+		youtubePlayer.pauseVideo();
 	};
 
 	const handleNext = (youtubePlaylist) => {
@@ -216,11 +217,6 @@ export default function App() {
 	const handlePlaylistEnd = () => {
 		setYoutubeCurrentIndex(0);
 	};
-	const spotifyTrackURIs = spotifyPlaylistTracks.map((playlistTrack) => playlistTrack.track.uri);
-	const playlistAlbumCovers = spotifyPlaylistTracks.map((playlistTrack) => playlistTrack.track.album.images[0].url);
-
-	const youtubeVideoIds = youtubePlaylistTracks.map((playlistTrack) => playlistTrack.snippet.resourceId.videoId);
-
 
 	return (
 		<div className="dashboard">
