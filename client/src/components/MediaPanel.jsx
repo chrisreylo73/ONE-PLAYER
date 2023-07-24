@@ -11,6 +11,7 @@ const MediaPanel = ({ accessToken, trackUri, playlistUri, playlistAlbumCovers, i
 	}, [currentSongIndex]);
 
 	if (!accessToken) return <div className="mediaPanel"></div>;
+
 	return (
 		<div className="mediaPanel">
 			{isSpotifySong ? (

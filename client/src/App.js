@@ -20,7 +20,7 @@ export default function App() {
 	 *-----------------------------------------------------------------------------------------------------------------------**/
 	const [code, setCode] = useState(null);
 	const [currentTrack, setCurrentTrack] = useState();
-	const [isSpotifySong, setIsSpotifySong] = useState(false);
+	const [isSpotifySong, setIsSpotifySong] = useState(null);
 	const [spotifyPlaylists, setSpotifyPlaylists] = useState([]);
 	const [spotifySelectedPlaylist, setSpotifySelectedPlaylist] = useState(null);
 	const [spotifyPlaylistTracks, setSpotifyPlaylistTracks] = useState([]);

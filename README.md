@@ -1,3 +1,3 @@
 # Spotify And Youtube Combined Music App
-
-- Combines Spotify and Youtube music into one combined music player. 
+## DESCRIPTION
+- Fetches spotify and youtube playlists automatically from specified accounts and provides music playback features for both platforms all in a single package.

@@ -1,7 +1,18 @@
+import { useState } from "react";
+
 const YoutubeSong = ({ youtubeChooseTrack, track, setIsSpotifySong }) => {
 	// const minutes = Math.floor(track.duration_ms / 60000);
 	// const seconds = Math.floor((track.duration_ms % 60000) / 1000);
 	// const formattedLength = track.duration_ms ? `${minutes}:${seconds.toString().padStart(2, "0")}` : "length?";
+	const [isHovered, setIsHovered] = useState(false);
+	
+	const handleMouseEnter = () => {
+		setIsHovered(true);
+	};
+
+	const handleMouseLeave = () => {
+		setIsHovered(false);
+	};
 
 	function handlePlay() {
 		setIsSpotifySong(false);
@@ -9,7 +20,7 @@ const YoutubeSong = ({ youtubeChooseTrack, track, setIsSpotifySong }) => {
 	}
 
 	return (
-		<div className="song" onClick={handlePlay}>
+		<div className={`song ${isHovered ? "hovered" : ""}`} onClick={handlePlay} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
 			<img className="album-cover" src={track.snippet.thumbnails.default?.url} alt="Album Cover" />
 			<div className="songInfo">
 				<p id="title">{track.snippet.title}</p>
