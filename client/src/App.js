@@ -165,7 +165,7 @@ export default function App() {
 
 	const fetchPlaylistVideos = (playlistId) => {
 		// const apiKey = "AIzaSyCr8ZkvKo6zU5EmLhoYKdRy2FNhoVKTc8s";
-		const videosUrl = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=5&playlistId=${playlistId}&key=${process.env.REACT_APP_YOUTUBE_API_KEY}`;
+		const videosUrl = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=200&playlistId=${playlistId}&key=${process.env.REACT_APP_YOUTUBE_API_KEY}`;
 		axios.get(videosUrl)
 		.then((response) => {
 			// console.log(response.data.items);

@@ -33,9 +33,7 @@ const SpotifyPlayback = ({ accessToken, trackUri, playlistUri, currentSongIndex,
 				token={accessToken}
 				showSaveIcon
 				callback={(state) => {
-					if (!state.isPlaying) setPlay(false);
-					const currentSongIndex = playlistUri.findIndex((uri) => uri === state.track?.uri);
-					setCurrentSongIndex(currentSongIndex);
+					setCurrentSongIndex(playlistUri.findIndex((uri) => uri === state.track?.uri));
 				}}
 				offset={currentSongIndex}
 				play={play}
