@@ -13,6 +13,8 @@ const YoutubePlaylistsCon = ({ youtubePlaylists, youtubeHandlePlaylistSelect}) =
 		setIsHovered(false);
 	};
 
+
+
 	return (
 		<div className={`Youtube-Playlists-con ${isHovered ? "hovered" : ""}`} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
 			<div className="Youtube-Playlists-header">
