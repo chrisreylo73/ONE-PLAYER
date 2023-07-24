@@ -240,6 +240,20 @@ body {
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.9);
   overflow: visible;
 }
+.duration-bar {
+  /* position: absolute; */
+  width: 100%;
+  background-color: #ccc;
+  height: 5px;
+}
+
+
+.progress-bar {
+  /* position: absolute; */
+  height: 20px;
+  background-color: #ff0000; /* Red color for the progress */
+} 
+
 
 .youtubePlayback button{
   background-color: transparent;

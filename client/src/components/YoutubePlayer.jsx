@@ -1,11 +1,14 @@
 import React, { useState, useRef, useEffect } from "react";
 import YouTube from "react-youtube";
-import YoutubePlaylist from "./YoutubePlaylist";
 const YoutubePlayer = ({youtubeVideoIds, youtubeSelectedPlaylist, handlePlayerReady, handlePlay, handlePause, handleNext, handlePrevious, handlePlaylistEnd, youtubeCurrentIndex, youtubeIsPlaying }) => {
 	const opts = {
 		playerVars: {
 			autoplay: 1,
 			controls: 0,
+			modestbranding: 0, // Add this option to remove YouTube logo
+			showRelatedVideos: 0, // Add this option to turn off related videos
+			rel: 0,
+			fs: 1,
 			listType: "playlist",
 			list: youtubeVideoIds.join(","),
 		},

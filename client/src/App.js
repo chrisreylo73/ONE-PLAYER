@@ -177,7 +177,6 @@ export default function App() {
 	 };
 	const youtubeHandlePlaylistSelect = async (playlist) => {
 		setYouTubeSelectedPlaylist(playlist);
-		console.log("hello");
 		await fetchPlaylistVideos(playlist.id);
 	};
 	
@@ -204,10 +203,12 @@ export default function App() {
 	};
 
 	const handleNext = (youtubePlaylist) => {
+		setYoutubeIsPlaying(true);
 		setYoutubeCurrentIndex((prevIndex) => (prevIndex + 1) % youtubePlaylist.length);
 	};
 
 	const handlePrevious = (youtubePlaylist) => {
+		setYoutubeIsPlaying(true);
 		setYoutubeCurrentIndex((prevIndex) => {
 			const newIndex = prevIndex - 1;
 			return newIndex < 0 ? youtubePlaylist.length - 1 : newIndex;
