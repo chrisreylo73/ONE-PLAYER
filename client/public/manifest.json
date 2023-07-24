@@ -16,6 +16,26 @@
       "src": "logo512.png",
       "type": "image/png",
       "sizes": "512x512"
+    },
+    {
+      "src": "prev.png",
+      "type": "image/png",
+      "sizes": "128x128"
+    },
+    {
+      "src": "play.png",
+      "type": "image/png",
+      "sizes": "128x128"
+    },
+    {
+      "src": "pause.png",
+      "type": "image/png",
+      "sizes": "128x128"
+    },
+    {
+      "src": "next.png",
+      "type": "image/png",
+      "sizes": "128x128"
     }
   ],
   "start_url": ".",

@@ -171,6 +171,7 @@ body {
  *                                                    MEDIA PLAYER
  *-----------------------------------------------------------------------------------------------------------------------**/
 
+
  .albumCover {
   width: 85%;
   border-radius: 100%;
@@ -238,6 +239,25 @@ body {
   padding-right: 30px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.9);
   overflow: visible;
+}
+
+.youtubePlayback button{
+  background-color: transparent;
+  border: none
+}
+#play , #pause {
+  margin-left: 24px;
+  margin-right: 24px;
+}
+
+#play img, #pause img {
+  width: 28px;
+  height: 34px;
+}
+
+#next img, #prev img {
+  width: 19px;
+  height: 19px;
 }
 
 .Spotify-Player img{

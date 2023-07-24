@@ -16,10 +16,25 @@ const YoutubePlayer = ({youtubeVideoIds, youtubeSelectedPlaylist, handlePlayerRe
 				<YouTube videoId={youtubeVideoIds[youtubeCurrentIndex]} opts={opts} onReady={handlePlayerReady} onEnd={handlePlaylistEnd} containerClassName="youtube-container" className="youtube-player" />
 			</div>
 			<div className="youtubePlayback">
-				<button onClick={() => handlePrevious(youtubeVideoIds)}>{"<<"}</button>
-				{!youtubeIsPlaying && <button onClick={handlePlay}>PLAY</button>}
-				{youtubeIsPlaying && <button onClick={handlePause}>PAUSE</button>}
-				<button onClick={() => handleNext(youtubeVideoIds)}>{">>"}</button>
+			  <button id="prev" onClick={() => handlePrevious(youtubeVideoIds)}>
+			    <img src={process.env.PUBLIC_URL + "./prev.png"} alt="Previous" />
+			  </button>
+
+			  {!youtubeIsPlaying && (
+			    <button id="play" onClick={handlePlay}>
+			      <img src={process.env.PUBLIC_URL + "./play.png"} alt="Play" />
+			    </button>
+			  )}
+
+			  {youtubeIsPlaying && (
+			    <button id="pause" onClick={handlePause}>
+			      <img src={process.env.PUBLIC_URL + "./pause.png"} alt="Pause" />
+			    </button>
+			  )}
+
+			  <button id="next" onClick={() => handleNext(youtubeVideoIds)}>
+			    <img src={process.env.PUBLIC_URL + "./next.png"} alt="Next" />
+			  </button>
 			</div>
 		</div>
 	);

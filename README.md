@@ -1,2 +1,3 @@
-# Spotify-Weather
-Gives you Spotify playlists based on the weather outside
+# Spotify And Youtube Combined Music App
+
+- Combines Spotify and Youtube music into one combined music player. 
