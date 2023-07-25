@@ -7,8 +7,13 @@
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^12.7.3",
     "axios": "^0.21.1",
+    "body-parser": "^1.19.0",
     "bootstrap": "^4.6.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
     "gapi-script": "^1.2.0",
+    "lyrics-finder": "^21.7.0",
     "react": "^17.0.1",
     "react-bootstrap": "^1.5.0",
     "react-dom": "^17.0.1",
@@ -20,11 +25,17 @@
     "web-vitals": "^1.1.0",
     "youtube-audio-stream": "^0.3.61"
   },
+  "devDependencies": {
+    "nodemon": "^2.0.7",
+    "npm-run-all": "^4.1.5"
+  },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "run-p devStart react-start",
+    "react-start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "devStart": "nodemon server.js"
   },
   "eslintConfig": {
     "extends": [
